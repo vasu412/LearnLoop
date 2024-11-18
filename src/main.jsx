@@ -6,7 +6,7 @@ import Home from "./Pages/Home";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <LearnLoopAuth />
-    {/* <Home /> */}
+    {/* <LearnLoopAuth /> */}
+    <Home />
   </StrictMode>
 );
