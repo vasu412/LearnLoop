@@ -1,20 +1,13 @@
-import React, { useState, useEffect, useCallback } from "react";
-import {
-  FaThumbsUp,
-  FaCommentDots,
-  FaRegHeart,
-  FaShareAlt,
-} from "react-icons/fa";
+import React, { useState, useEffect, useCallback, useContext } from "react";
 import { newsData } from "../Data/newsData";
+import context from "../Context/context";
 
-const NewsFeed = ({ darkMode, filter }) => {
+const NewsFeed = ({ filter }) => {
   const [news, setNews] = useState(newsData.items);
-  const [liked, setLiked] = useState(new Set());
-  const [reaction, setReaction] = useState(null);
-  const [showEmojis, setShowEmojis] = useState(false);
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
   const [debouncedFilter, setDebouncedFilter] = useState(filter);
+  const { darkMode } = useContext(context);
 
   // Debounce the filter input
   useEffect(() => {
@@ -32,7 +25,6 @@ const NewsFeed = ({ darkMode, filter }) => {
     const searchTerm = debouncedFilter === "" ? "education" : debouncedFilter;
     setLoading(true);
 
-    // const API_KEY = "dMMPdnrfF2ocPGWodxBLZTk2EgGAESz15asLSetAJIov3znz";
     try {
       const response = await fetch(
         `https://www.googleapis.com/customsearch/v1?q=${searchTerm}&start=${
@@ -62,7 +54,6 @@ const NewsFeed = ({ darkMode, filter }) => {
 
   // Trigger fetch on filter or page change
   useEffect(() => {
-    // setNews(data);
     // fetchNews();
   }, [debouncedFilter, page]);
 
@@ -141,50 +132,6 @@ const NewsFeed = ({ darkMode, filter }) => {
                   />
                 </div>
               )}
-
-              {/* Reactions */}
-              <div className="flex items-center space-x-8 mt-4">
-                {/* Like Button */}
-                <button
-                  onClick={() => handleReaction(item.title)}
-                  className={`flex items-center space-x-2 ${
-                    liked.has(item.title) ? "text-blue-500" : "text-gray-600"
-                  } hover:text-blue-400 transition-colors`}>
-                  <FaRegHeart size={20} />
-                  <span className="text-sm">
-                    {liked.has(item.title) ? "Liked" : "Like"}
-                  </span>
-                </button>
-
-                {/* Comment Button */}
-                <button className="flex items-center space-x-2 text-gray-600 hover:text-blue-400 transition-colors">
-                  <FaCommentDots size={20} />
-                  <span className="text-sm">Comment</span>
-                </button>
-
-                {/* Share Button */}
-                <button className="flex items-center space-x-2 text-gray-600 hover:text-blue-400 transition-colors">
-                  <FaShareAlt size={20} />
-                  <span className="text-sm">Share</span>
-                </button>
-              </div>
-
-              {/* Emojis on React Hover */}
-              <div
-                className={`absolute top-[120px] left-[50px] flex space-x-2 mt-2 animate-fadeIn ${
-                  showEmojis ? "block" : "hidden"
-                }`}>
-                {["👍", "❤️", "😂", "😮", "😢", "😡"].map((emoji, idx) => (
-                  <button
-                    key={idx}
-                    onClick={() => setReaction(emoji)}
-                    className={`text-2xl ${
-                      reaction === emoji ? "text-blue-400" : "text-gray-600"
-                    }`}>
-                    {emoji}
-                  </button>
-                ))}
-              </div>
             </div>
           </>
         ))}

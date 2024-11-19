@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useContext } from "react";
 import NewsFeed from "../Components/NewsFeed";
 import NewsCarousel from "../Components/NewsCarousel";
+import context from "../Context/context";
 
-const NewsPage = ({ darkMode, filter }) => {
+const NewsPage = ({ filter }) => {
+  const { darkMode } = useContext(context);
   console.log(darkMode);
   return (
     <div

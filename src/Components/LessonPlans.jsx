@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
+import context from "../Context/context";
 
-const LessonPlans = ({ darkMode }) => {
+const LessonPlans = () => {
   const [lessonPlans, setLessonPlans] = useState([]);
   const [bookmark, setBookmark] = useState([]);
-
+  const { darkMode } = useContext(context);
   //   useEffect(() => {
   //     // Fetching mock data
   //     const fetchLessonPlans = async () => {

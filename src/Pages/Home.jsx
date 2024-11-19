@@ -1,11 +1,12 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import NavBar from "../Components/NavBar";
 import LeftNavBar from "../Components/LeftNavBar";
 import { Outlet } from "react-router-dom";
+import context from "../Context/context";
 
 const Home = () => {
-  const [darkMode, setDarkMode] = useState(false);
   const [filter, setFilter] = useState("");
+  const { darkMode, setDarkMode } = useContext(context);
   return (
     <div
       className={`font-flux ${
