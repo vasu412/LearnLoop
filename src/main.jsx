@@ -6,6 +6,10 @@ import LearnLoopAuth from "./Pages/Auth";
 import NewsPage from "./Pages/News";
 import Home from "./Pages/Home";
 import PostForm from "./Components/PostForm";
+import TeachingResources from "./Pages/TeachingResources";
+import CalendarEvents from "./Pages/EventPage";
+import PostDetail from "./Components/PostDetail";
+import FeatureWishlist from "./Pages/FeatureWishlist";
 
 const router = createBrowserRouter([
   {
@@ -24,11 +28,19 @@ const router = createBrowserRouter([
         path: "/home/",
         element: <PostForm />,
       },
+      {
+        path: "/home/resources",
+        element: <TeachingResources />,
+      },
+      {
+        path: "/home/events",
+        element: <CalendarEvents />,
+      },
+      {
+        path: "/home/wishlist",
+        element: <FeatureWishlist />,
+      },
     ],
-  },
-  {
-    path: "/news",
-    element: <NewsPage />,
   },
 ]);
 

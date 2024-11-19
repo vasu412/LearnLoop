@@ -8,7 +8,10 @@ import {
   FaChalkboardTeacher,
   FaRegLightbulb,
   FaCog,
+  FaThList,
 } from "react-icons/fa";
+import { BsChatSquareText } from "react-icons/bs";
+import { Link } from "react-router-dom";
 
 const LeftNavBar = ({ darkMode }) => {
   return (
@@ -20,83 +23,135 @@ const LeftNavBar = ({ darkMode }) => {
       }`}>
       <ul>
         {/* Homepage */}
-        <li className="flex items-center space-x-4 hover:bg-gray-200 py-3 px-4 rounded-xl">
-          <FaHome className="text-2xl" />
-          <a
+        <Link to={"/home/"}>
+          <li className="flex items-center space-x-4 hover:bg-gray-200 py-3 px-4 rounded-xl">
+            <FaHome className="text-2xl" />
+            <span
+              href="#"
+              className={`text-md font-medium  ${
+                darkMode ? "text-gray-300" : "text-gray-700"
+              }`}>
+              Home
+            </span>
+          </li>
+        </Link>
+
+        <hr className="border-t border-solid border-gray-300" />
+        <li className="flex items-center space-x-4 hover:bg-gray-200 pt-3 px-4 rounded-xl">
+          <span
             href="#"
-            className={`text-md font-medium  ${
+            className={`text-md font-extrabold ${
               darkMode ? "text-gray-300" : "text-gray-700"
             }`}>
-            Home
-          </a>
+            UPDATES
+          </span>
         </li>
+
         {/* News & Announcements */}
-        <li className="flex items-center space-x-4 hover:bg-gray-200 py-3 px-4 rounded-xl">
-          <FaBullhorn className="text-2xl" />
-          <a
-            href="#"
-            className={`text-md font-medium ${
-              darkMode ? "text-gray-300" : "text-gray-700"
-            }`}>
-            News & Announcements
-          </a>
-        </li>
+        <Link to={"/home/news"}>
+          <li className="flex items-center space-x-4 hover:bg-gray-200 py-3 px-4 rounded-xl">
+            <FaBullhorn className="text-2xl" />
+            <span
+              href="#"
+              className={`text-md font-medium ${
+                darkMode ? "text-gray-300" : "text-gray-700"
+              }`}>
+              News & Announcements
+            </span>
+          </li>
+        </Link>
         {/* Events */}
-        <li className="flex items-center space-x-4 hover:bg-gray-200 py-3 px-4 rounded-xl">
-          <FaCalendarAlt className="text-2xl" />
-          <a
+        <Link to={"/home/events"}>
+          <li className="flex items-center space-x-4 hover:bg-gray-200 py-3 px-4 rounded-xl">
+            <FaCalendarAlt className="text-2xl" />
+            <span
+              className={`text-md font-medium  ${
+                darkMode ? "text-gray-300" : "text-gray-700"
+              }`}>
+              Events
+            </span>
+          </li>
+        </Link>
+        {/* Feature Wishlist */}
+        <Link to={"/home/wishlist"}>
+          <li className="flex items-center space-x-4 hover:bg-gray-200 py-3 px-4 rounded-xl">
+            <FaRegLightbulb className="text-2xl" />
+            <span
+              className={`text-md font-medium  ${
+                darkMode ? "text-gray-300" : "text-gray-700"
+              }`}>
+              Feature Wishlist
+            </span>
+          </li>
+        </Link>
+        <hr className="border-t border-solid border-gray-300" />
+
+        {/* Teaching Resources */}
+        <li className="flex items-center space-x-4 hover:bg-gray-200 pt-3 px-4 rounded-xl">
+          <span
             href="#"
-            className={`text-md font-medium  ${
+            className={`text-md font-extrabold ${
               darkMode ? "text-gray-300" : "text-gray-700"
             }`}>
-            Events
-          </a>
+            CONNECT
+          </span>
         </li>
+        <Link>
+          <li className="flex items-center space-x-4 hover:bg-gray-200 py-3 px-4 rounded-xl">
+            <BsChatSquareText className="text-xl ml-[2px]" />
+            <span
+              className={`text-md font-medium  ${
+                darkMode ? "text-gray-300" : "text-gray-700"
+              }`}>
+              TUTOR CHAT ROOM
+            </span>
+          </li>
+        </Link>
 
         <hr className="border-t border-solid border-gray-300" />
 
         {/* Teaching Resources */}
         <li className="flex items-center space-x-4 hover:bg-gray-200 py-3 px-4 rounded-xl">
-          <a
+          <span
             href="#"
             className={`text-md font-extrabold ${
               darkMode ? "text-gray-300" : "text-gray-700"
             }`}>
             RESOURCES
-          </a>
+          </span>
         </li>
         {/* Community Features */}
         <li className="flex items-center space-x-4 hover:bg-gray-200 py-3 px-4 rounded-xl">
           <FaChalkboardTeacher className="text-2xl" />
-          <a
+          <span
             href="#"
             className={`text-md font-medium  ${
               darkMode ? "text-gray-300" : "text-gray-700"
             }`}>
             Community Features
-          </a>
+          </span>
         </li>
         {/* Feature Wishlist */}
         <li className="flex items-center space-x-4 hover:bg-gray-200 py-3 px-4 rounded-xl">
           <FaRegLightbulb className="text-2xl" />
-          <a
+          <span
             href="#"
             className={`text-md font-medium ${
               darkMode ? "text-gray-300" : "text-gray-700"
             }`}>
             Feature Wishlist
-          </a>
+          </span>
         </li>
         {/* Settings */}
         <li className="flex items-center space-x-4 hover:bg-gray-200 py-3 px-4 rounded-xl">
           <FaCog className="text-2xl" />
-          <a
+          <span
             href="#"
             className={`text-md font-medium  ${
               darkMode ? "text-gray-300" : "text-gray-700"
             }`}>
             Settings & Documentation
-          </a>
+          </span>
         </li>
       </ul>
     </div>

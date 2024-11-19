@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation, Pagination, Autoplay } from "swiper/modules"; // Added Autoplay
+import { Navigation, Pagination, Autoplay } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
@@ -17,7 +17,6 @@ const NewsCarousel = ({ apiKey, darkMode }) => {
           `https://newsapi.org/v2/top-headlines?category=science&apiKey=${apiKey}`
         );
         const data = await response.json();
-        console.log(data);
         // Filter articles with images
         const articlesWithImages = data.articles.filter(
           (article) => article.urlToImage
@@ -34,12 +33,15 @@ const NewsCarousel = ({ apiKey, darkMode }) => {
   return (
     <div className={`w-full p-8 ${darkMode ? "bg-gray-800" : "bg-gray-100"}`}>
       <Swiper
-        modules={[Navigation, Pagination, Autoplay]} // Added Autoplay
+        modules={[Navigation, Pagination, Autoplay]}
+        navigation={true}
         pagination={{ clickable: true }}
         autoplay={{
           delay: 3000, // 3-second interval for auto-scroll
           disableOnInteraction: false,
         }}
+        preventClicks={false} // Allow clicks
+        preventClicksPropagation={false} // Allow click propagation
         spaceBetween={20}
         slidesPerView={3.4}
         breakpoints={{
@@ -49,9 +51,9 @@ const NewsCarousel = ({ apiKey, darkMode }) => {
         className="news-carousel">
         {articles.map((article, index) => (
           <SwiperSlide key={index}>
-            <a href={article.url} target="blank">
+            <a href={article.url} target="_blank" rel="noopener noreferrer">
               <div
-                className="h-56 bg-cover bg-center rounded-lg flex flex-col justify-end p-4 text-white"
+                className="h-56 bg-cover bg-center rounded-lg flex flex-col justify-end p-4 text-white relative"
                 style={{
                   backgroundImage: `url(${article.urlToImage})`,
                 }}>
@@ -77,9 +79,6 @@ const NewsCarousel = ({ apiKey, darkMode }) => {
             </a>
           </SwiperSlide>
         ))}
-        {/* Navigation Buttons */}
-        <div className="swiper-button-next text-sm text-gray-600 dark:text-gray-300 w-6 h-6"></div>
-        <div className="swiper-button-prev text-sm text-gray-600 dark:text-gray-300 w-6 h-6"></div>
       </Swiper>
     </div>
   );

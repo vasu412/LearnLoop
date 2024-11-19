@@ -1,16 +1,15 @@
 import React, { useState } from "react";
-import PostForm from "../Components/PostForm";
 import NavBar from "../Components/NavBar";
 import LeftNavBar from "../Components/LeftNavBar";
 import { Outlet } from "react-router-dom";
-import NewsFeed from "../Components/NewsFeed";
+
 const Home = () => {
   const [darkMode, setDarkMode] = useState(false);
   const [filter, setFilter] = useState("");
   return (
     <div
       className={`font-flux ${
-        darkMode ? "bg-gray-900 text-white" : "bg-white text-gray-900"
+        darkMode ? "bg-gray-900 text-white" : "bg-gray-100 text-gray-900"
       }`}>
       {/* Top Navigation Bar */}
       <NavBar
@@ -26,10 +25,7 @@ const Home = () => {
         <LeftNavBar darkMode={darkMode} />
 
         {/* Main Content Area (Right Side) */}
-        <Outlet>
-          <PostForm />
-          <NewsFeed darkMode={darkMode} filter={filter} />
-        </Outlet>
+        <Outlet />
       </div>
     </div>
   );
