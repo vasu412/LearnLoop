@@ -12,8 +12,8 @@ const NavBar = ({ filter, setFilter, darkMode, setDarkMode }) => {
   };
   return (
     <nav
-      className={`flex items-center justify-between p-4 border-b  ${
-        !darkMode ? "shadow-md border-gray-200" : "border-gray-600"
+      className={`flex items-center sticky top-0 z-40 justify-between p-4 border-b  ${
+        !darkMode ? "shadow-md border-gray-200 bg-white" : "border-gray-700"
       }`}>
       <div className="flex items-center space-x-3 font-sans">
         <h1 className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-pink-500">

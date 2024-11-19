@@ -1,12 +1,39 @@
-import { StrictMode } from "react";
-import { createRoot } from "react-dom/client";
+import * as React from "react";
+import * as ReactDOM from "react-dom/client";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "./index.css";
-import LearnLoopAuth from "./Pages/Auth.jsx";
+import LearnLoopAuth from "./Pages/Auth";
+import NewsPage from "./Pages/News";
 import Home from "./Pages/Home";
+import PostForm from "./Components/PostForm";
 
-createRoot(document.getElementById("root")).render(
-  <StrictMode>
-    {/* <LearnLoopAuth /> */}
-    <Home />
-  </StrictMode>
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <LearnLoopAuth />,
+  },
+  {
+    path: "/home",
+    element: <Home />,
+    children: [
+      {
+        path: "/home/news",
+        element: <NewsPage />,
+      },
+      {
+        path: "/home/",
+        element: <PostForm />,
+      },
+    ],
+  },
+  {
+    path: "/news",
+    element: <NewsPage />,
+  },
+]);
+
+ReactDOM.createRoot(document.getElementById("root")).render(
+  <React.StrictMode>
+    <RouterProvider router={router} />
+  </React.StrictMode>
 );

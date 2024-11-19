@@ -9,6 +9,59 @@ const NewsFeed = ({ darkMode, filter }) => {
   const [loading, setLoading] = useState(false);
   const [debouncedFilter, setDebouncedFilter] = useState(filter);
 
+  const data = [
+    {
+      id: "1",
+      title: "Important Update: Office Timing Changes",
+      content:
+        "Starting next Monday, the office hours will be adjusted to 9 AM - 5 PM to better accommodate work-life balance. Please ensure you update your schedules accordingly.",
+      date: "2024-11-18",
+      author: "Admin",
+      tags: ["Update", "Office"],
+      image: "https://via.placeholder.com/600x300?text=Office+Timing+Update",
+    },
+    {
+      id: "2",
+      title: "Upcoming Event: Annual Hackathon 2024",
+      content:
+        "Get ready for our Annual Hackathon! It will be held on December 5-6, 2024, in the main auditorium. Teams of up to 5 members can participate. Sign up by November 30.",
+      date: "2024-11-15",
+      author: "Event Team",
+      tags: ["Event", "Hackathon"],
+      image: "https://via.placeholder.com/600x300?text=Annual+Hackathon+2024",
+    },
+    {
+      id: "3",
+      title: "New Policy: Remote Work Guidelines",
+      content:
+        "Starting December 1, a new remote work policy will be in effect. Employees can work remotely for up to 3 days a week. Please refer to the policy document shared via email.",
+      date: "2024-11-12",
+      author: "HR Department",
+      tags: ["Policy", "Remote Work"],
+      image: "https://via.placeholder.com/600x300?text=Remote+Work+Policy",
+    },
+    {
+      id: "4",
+      title: "Holiday Announcement: Thanksgiving Break",
+      content:
+        "The office will remain closed on November 23-24 for Thanksgiving. Wishing everyone a happy holiday with their loved ones.",
+      date: "2024-11-10",
+      author: "Admin",
+      tags: ["Holiday", "Thanksgiving"],
+      image: "https://via.placeholder.com/600x300?text=Thanksgiving+Holiday",
+    },
+    {
+      id: "5",
+      title: "Maintenance Notification: Server Downtime",
+      content:
+        "Our servers will undergo scheduled maintenance on November 20 from 12 AM to 4 AM. Expect downtime during this period. We apologize for the inconvenience.",
+      date: "2024-11-08",
+      author: "IT Support",
+      tags: ["Maintenance", "Downtime"],
+      image: "https://via.placeholder.com/600x300?text=Server+Maintenance",
+    },
+  ];
+
   // Debounce the filter input
   useEffect(() => {
     const handler = setTimeout(() => {
@@ -22,13 +75,13 @@ const NewsFeed = ({ darkMode, filter }) => {
   const fetchNews = useCallback(async () => {
     if (loading) return; // Prevent multiple API calls simultaneously
 
-    const search =
-      debouncedFilter === "" ? "education+learning" : debouncedFilter;
+    const searchTerm = debouncedFilter === "" ? "education" : debouncedFilter;
     setLoading(true);
 
+    // const API_KEY = "dMMPdnrfF2ocPGWodxBLZTk2EgGAESz15asLSetAJIov3znz";
     try {
       const response = await fetch(
-        `https://www.googleapis.com/customsearch/v1?q=${search}&start=${
+        `https://www.googleapis.com/customsearch/v1?q=${searchTerm}&start=${
           page * 10
         }&cx=c43f333fd690e4471&key=AIzaSyDxqEnKnL2N3F1E_7cs6_UoaaHLhDkWlvw`
       );
@@ -56,8 +109,9 @@ const NewsFeed = ({ darkMode, filter }) => {
 
   // Trigger fetch on filter or page change
   useEffect(() => {
-    //fetchNews();
-  }, [debouncedFilter, page, fetchNews]);
+    setNews(data);
+    // fetchNews();
+  }, [debouncedFilter, page]);
 
   const handleReaction = (title) => {
     setLiked((prev) => {
@@ -100,21 +154,21 @@ const NewsFeed = ({ darkMode, filter }) => {
 
   return (
     <div
-      className={`flex-1 p-8 ${
-        darkMode ? "bg-gray-900 text-white" : "bg-white text-gray-900"
+      className={`flex-1 w-[calc(100vw-660px)] p-8 ${
+        darkMode ? "bg-gray-800  text-white" : "bg-gray-100  text-gray-900"
       }`}>
       <div className="space-y-6">
         {news.map((item, index) => (
           <div
             key={index}
-            className={`p-4 rounded-lg shadow-md space-y-4 ${
+            className={`p-4 rounded-lg cursor-pointer space-y-4 ${
               darkMode
-                ? "bg-gray-800 border-gray-700"
-                : "bg-gray-100 border-gray-300"
+                ? "hover:bg-gray-900 border-gray-700"
+                : "hover:bg-gray-200 border-gray-300"
             }`}>
             <h2 className="text-xl font-bold">{item.title}</h2>
             {(item?.pagemap?.cse_image || item?.pagemap?.cse_thumbnail) && (
-              <div className="relative w-full h-[450px] bg-gray-300 rounded-md overflow-hidden">
+              <div className="relative w-full max-h-[450px] bg-gray-300 rounded-md overflow-hidden">
                 {/* Blurred background */}
                 <img
                   src={
@@ -135,7 +189,7 @@ const NewsFeed = ({ darkMode, filter }) => {
               </div>
             )}
 
-            <p>{item.snippet || "No content available for this article."}</p>
+            {item.snippet && <p>{item.snippet}</p>}
 
             {/* Reactions */}
             <div className="flex space-x-4">
@@ -144,12 +198,8 @@ const NewsFeed = ({ darkMode, filter }) => {
                 className={`flex items-center space-x-2 ${
                   liked.has(item.title) ? "text-blue-400" : "text-gray-400"
                 }`}>
-                <FaThumbsUp />
-                <span>{liked.has(item.title) ? "Liked" : "Like"}</span>
-              </button>
-              <button className="flex items-center space-x-2 text-gray-400">
                 <FaRegHeart />
-                <span>Follow</span>
+                <span>{liked.has(item.title) ? "Liked" : "Like"}</span>
               </button>
             </div>
 
