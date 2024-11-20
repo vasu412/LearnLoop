@@ -1,7 +1,7 @@
 import React from "react";
-import LessonPlans from "../Components/LessonPlans";
-import Websites from "../Components/Websites";
-import Coursebooks from "../Components/CourseBooks";
+import LessonPlans from "./LessonPlans";
+import Websites from "./Websites";
+import Coursebooks from "./CourseBooks";
 
 const TeachingResources = () => {
   return (

@@ -1,12 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { FaWindowClose } from "react-icons/fa";
 import { addDoc, collection, getFirestore } from "firebase/firestore";
 import app from "../Firebase/auth";
+import context from "../Context/context"; // Assuming you have context for darkMode
 
 const SharePost = ({ setShowPopup }) => {
   const [postContent, setPostContent] = useState("");
   const [files, setFiles] = useState([]);
   const [mediaPreview, setMediaPreview] = useState(null);
+  const { darkMode } = useContext(context); // Using darkMode from context
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -50,12 +52,20 @@ const SharePost = ({ setShowPopup }) => {
   };
 
   return (
-    <div className="fixed inset-0 bg-gray-500 bg-opacity-50 flex justify-center items-center z-50">
-      <div className="bg-white w-[90%] sm:w-[600px] p-6 rounded-lg shadow-lg">
+    <div
+      className={`fixed inset-0 bg-opacity-50 flex justify-center items-center z-50 ${
+        darkMode ? "bg-gray-800" : "bg-gray-500"
+      }`}>
+      <div
+        className={` w-[90%] sm:w-[600px] p-6 rounded-lg shadow-lg ${
+          darkMode ? "bg-gray-900 text-white" : "bg-white text-gray-800"
+        }`}>
         <div className="flex items-center justify-between">
           <h3 className="text-xl font-bold mb-4">CREATE A POST</h3>
           <FaWindowClose
-            className="text-xl font-bold mb-4"
+            className={`text-xl font-bold mb-4 cursor-pointer ${
+              darkMode ? "text-white" : "text-gray-800"
+            }`}
             onClick={() => setShowPopup(false)}
           />
         </div>
@@ -64,14 +74,21 @@ const SharePost = ({ setShowPopup }) => {
             value={postContent}
             onChange={(e) => setPostContent(e.target.value)}
             placeholder="Write something..."
-            className="w-full p-4 border border-gray-300 rounded-md mb-4 resize-none"
+            className={`w-full p-4 border rounded-md mb-4 resize-none ${
+              darkMode
+                ? "bg-gray-800 text-white border-gray-600"
+                : "bg-gray-100 text-gray-800 border-gray-300"
+            }`}
             rows="4"
           />
 
           {/* Media Attachments */}
           <div className="flex items-center space-x-4 mb-4">
             <label className="cursor-pointer">
-              <span className="text-blue-500">Add Photos/Videos</span>
+              <span
+                className={`${darkMode ? "text-blue-400" : "text-blue-500"}`}>
+                Add Photos/Videos
+              </span>
               <input
                 type="file"
                 accept="image/*,video/*,application/pdf"
@@ -106,7 +123,11 @@ const SharePost = ({ setShowPopup }) => {
 
           <button
             type="submit"
-            className="px-6 py-3 bg-blue-500 text-white rounded-md hover:bg-blue-600 w-full">
+            className={`px-6 py-3 rounded-md w-full ${
+              darkMode
+                ? "bg-blue-600 hover:bg-blue-700"
+                : "bg-blue-500 hover:bg-blue-600"
+            } text-white`}>
             Post
           </button>
         </form>

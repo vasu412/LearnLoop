@@ -91,13 +91,17 @@ const NewsFeed = ({ filter }) => {
       <div className="space-y-4">
         {news.map((item, index) => (
           <>
-            <hr />
+            <hr
+              className={`border-t border-solid ${
+                darkMode ? "border-gray-700" : "border-gray-300"
+              }`}
+            />
             <div
               key={index}
               className={`p-4 rounded-lg cursor-pointer space-y-4 ${
                 darkMode
-                  ? "hover:bg-gray-900 border-gray-700"
-                  : "hover:bg-gray-200 border-gray-300"
+                  ? "hover:bg-gray-900 border-gray-700 bg-slate-700"
+                  : "bg-gray-200 border-gray-300 hover:bg-gray-300"
               }`}>
               <div className="flex items-center gap-3">
                 {item?.pagemap?.cse_thumbnail && (

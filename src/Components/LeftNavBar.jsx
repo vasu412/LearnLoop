@@ -22,9 +22,9 @@ const LeftNavBar = ({ darkMode }) => {
 
   return (
     <div
-      className={`w-[275px] h-[90.6vh] p-4 border-x-2 border-solid space-y-8 ${
+      className={`w-[275px] h-[90.6vh] p-4 border-0 border-x border-solid space-y-8 ${
         darkMode
-          ? "bg-gray-800 text-white border-black"
+          ? "bg-gray-800 text-white border-gray-700"
           : "bg-gray-100 text-gray-900 border-gray-200"
       }`}>
       <ul>
@@ -36,7 +36,11 @@ const LeftNavBar = ({ darkMode }) => {
           </li>
         </Link>
 
-        <hr className="border-t border-solid border-gray-300" />
+        <hr
+          className={`border-t border-solid ${
+            darkMode ? "border-gray-700" : "border-gray-300"
+          }`}
+        />
 
         {/* Updates Section */}
         <li className="flex items-center space-x-3 pt-3 px-4">
@@ -66,7 +70,11 @@ const LeftNavBar = ({ darkMode }) => {
           </li>
         </Link>
 
-        <hr className="border-t border-solid border-gray-300" />
+        <hr
+          className={`border-t border-solid ${
+            darkMode ? "border-gray-700" : "border-gray-300"
+          }`}
+        />
 
         {/* Connect Section */}
         <li className="flex items-center space-x-3 pt-3 px-4">
@@ -84,7 +92,11 @@ const LeftNavBar = ({ darkMode }) => {
           </li>
         </Link>
 
-        <hr className="border-t border-solid border-gray-300" />
+        <hr
+          className={`border-t border-solid ${
+            darkMode ? "border-gray-700" : "border-gray-300"
+          }`}
+        />
 
         {/* Resources Section */}
         <li className="flex items-center space-x-3 pt-3 px-4">
@@ -96,26 +108,31 @@ const LeftNavBar = ({ darkMode }) => {
           </span>
         </li>
 
-        <Link to={"/home/resources/lesson-plans"}>
+        <Link to={"/home/lesson-plans"}>
           <li className={`flex items-center space-x-3 ${commonHoverClasses}`}>
             <FaBook className="text-xl" />
             <span className={commonTextClasses}>Lesson Plans</span>
           </li>
         </Link>
-        <Link to={"/home/resources/websites"}>
+        <Link to={"/home/websites"}>
           <li className={`flex items-center space-x-3 ${commonHoverClasses}`}>
             <FaLink className="text-xl" />
             <span className={commonTextClasses}>Websites</span>
           </li>
         </Link>
-        <Link to={"/home/resources/coursebooks"}>
+        <Link to={"/home/coursebooks"}>
           <li className={`flex items-center space-x-3 ${commonHoverClasses}`}>
             <FaBook className="text-xl" />
             <span className={commonTextClasses}>Coursebooks</span>
           </li>
         </Link>
 
-        <hr className="border-t border-solid border-gray-300" />
+        <hr
+          className={`border-t border-solid ${
+            darkMode ? "border-gray-700" : "border-gray-300"
+          }`}
+        />
+
         <Link to={"/home/resources/community"}>
           <li className={`flex items-center space-x-3 ${commonHoverClasses}`}>
             <FaChalkboardTeacher className="text-xl" />

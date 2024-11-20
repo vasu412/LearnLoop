@@ -10,6 +10,9 @@ import CalendarEvents from "./Pages/EventPage";
 import PostDetail from "./Components/PostDetail";
 import FeatureWishlist from "./Pages/FeatureWishlist";
 import App from "./Pages/App";
+import LessonPlans from "./Pages/LessonPlans";
+import Websites from "./Pages/Websites";
+import Coursebooks from "./Pages/CourseBooks";
 
 const router = createBrowserRouter([
   {
@@ -29,8 +32,16 @@ const router = createBrowserRouter([
         element: <PostForm />,
       },
       {
-        path: "/home/resources",
-        element: <TeachingResources />,
+        path: "/home/lesson-plans",
+        element: <LessonPlans />,
+      },
+      {
+        path: "/home/websites",
+        element: <Websites />,
+      },
+      {
+        path: "/home/coursebooks",
+        element: <Coursebooks />,
       },
       {
         path: "/home/events",
