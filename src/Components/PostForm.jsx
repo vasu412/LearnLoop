@@ -1,6 +1,7 @@
 import React, { useContext, useState } from "react";
 import SharePost from "./SharePost";
 import context from "../Context/context";
+import PostsPage from "./Post";
 
 const PostForm = () => {
   const [showPopup, setShowPopup] = useState(false);
@@ -8,7 +9,7 @@ const PostForm = () => {
 
   return (
     <div
-      className={`w-[calc(75vw-275px)] flex flex-col items-center p-6 border-0 border-solid border-r-2 ${
+      className={`w-[calc(75vw-275px)] h-[90.6vh] overflow-scroll flex flex-col items-center p-6 border-0 border-solid border-r-2 ${
         darkMode ? "border-gray-700 bg-gray-900" : "border-gray-200 bg-gray-100"
       }`}>
       {/* User's Profile Image & Placeholder */}
@@ -44,6 +45,7 @@ const PostForm = () => {
           darkMode ? "border-gray-700" : "border-gray-200"
         }`}
       />
+      <PostsPage />
     </div>
   );
 };
