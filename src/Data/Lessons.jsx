@@ -208,5 +208,101 @@ export const lessons = {
         ],
       },
     ],
+    Math: [
+      {
+        id: "MATH001",
+        title: "Creative Geometry – Sculpting with Math",
+        description:
+          "Students explore mathematical shapes and forms through creative sculpting activities.",
+        duration: "60 minutes",
+        gradeLevel: "6th-8th",
+        objectives: [
+          "Understand geometric properties.",
+          "Create sculptures using mathematical principles.",
+        ],
+        materials: ["Clay", "Ruler", "Protractor"],
+        previewImage: "https://artsnowlearning.org/creative-geometry-image.jpg",
+        videoLink: "https://youtube.com/creative-geometry",
+        rating: 4.7,
+        source: "https://artsnowlearning.org",
+      },
+    ],
+    Science: [
+      {
+        id: "SCIENCE001",
+        title: "Weather in Motion",
+        description:
+          "Learn about the science of weather patterns and how they influence our environment.",
+        duration: "45 minutes",
+        gradeLevel: "4th-6th",
+        objectives: [
+          "Analyze weather data.",
+          "Understand the causes of various weather phenomena.",
+        ],
+        materials: ["Weather charts", "Thermometer", "Internet access"],
+        previewImage:
+          "https://www.weathereducation.org/weather-motion-image.jpg",
+        videoLink: "https://youtube.com/weather-motion",
+        rating: 4.5,
+        source: "https://weathereducation.org",
+      },
+    ],
+    Arts: [
+      {
+        id: "ART001",
+        title: "Kandinsky’s Circles and Place Value",
+        description:
+          "Students combine visual art and math by creating colorful circle compositions while exploring place values.",
+        duration: "90 minutes",
+        gradeLevel: "2nd-4th",
+        objectives: [
+          "Create art inspired by Kandinsky.",
+          "Learn about place value in numbers.",
+        ],
+        materials: ["Colored paper", "Scissors", "Glue"],
+        previewImage: "https://artsnowlearning.org/kandinsky-circles-image.jpg",
+        videoLink: "https://youtube.com/kandinsky-circles",
+        rating: 4.9,
+        source: "https://artsnowlearning.org",
+      },
+    ],
+    History: [
+      {
+        id: "HISTORY001",
+        title: "Teaching the Transatlantic Slave Trade",
+        description:
+          "Using art to teach the history and legacy of the transatlantic slave trade.",
+        duration: "90 minutes",
+        gradeLevel: "9th-12th",
+        objectives: [
+          "Understand historical contexts of the transatlantic slave trade.",
+          "Analyze art as a historical source.",
+        ],
+        materials: ["Worksheets", "Historical art prints"],
+        previewImage: "https://nga.gov/teaching-slave-trade-image.jpg",
+        videoLink: "https://youtube.com/teaching-slave-trade",
+        rating: 4.8,
+        source: "https://nga.gov",
+      },
+    ],
+    "Language Arts": [
+      {
+        id: "LANG001",
+        title: "Exploring Narrative Writing Through Art",
+        description:
+          "Students develop their narrative writing skills by examining and interpreting visual artworks.",
+        duration: "60 minutes",
+        gradeLevel: "5th-8th",
+        objectives: [
+          "Write creative narratives.",
+          "Analyze themes in visual art.",
+        ],
+        materials: ["Notebook", "Art prints", "Pencils"],
+        previewImage: "https://artsnowlearning.org/narrative-writing-image.jpg",
+        videoLink: "https://youtube.com/narrative-writing",
+        rating: 4.6,
+        source: "https://artsnowlearning.org",
+      },
+    ],
   },
 };

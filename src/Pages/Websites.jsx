@@ -16,7 +16,7 @@ const Websites = () => {
 
   return (
     <div
-      className={`mx-10 w-[calc(100vw-275px)] text-gray-100 h-[90.6vh] overflow-scroll ${
+      className={`px-10 w-[calc(100vw-275px)] text-gray-100 h-[90.6vh] overflow-scroll ${
         darkMode ? "bg-gray-900 " : "bg-gray-100 "
       }`}>
       <div
@@ -46,7 +46,7 @@ const Websites = () => {
                 className={`absolute top-2 right-2 cursor-pointer text-xl ${
                   bookmarks.includes(website.id)
                     ? "text-yellow-400"
-                    : "text-gray-400"
+                    : "text-red-400"
                 }`}
                 onClick={() => handleBookmark(website.id)}>
                 {bookmarks.includes(website.id) ? "★" : "☆"}
