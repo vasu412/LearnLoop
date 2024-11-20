@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback, useContext } from "react";
 import { newsData } from "../Data/newsData";
 import context from "../Context/context";
+import { NewsShimmer } from "./Shimmer";
 
 const NewsFeed = ({ filter }) => {
   const [news, setNews] = useState(newsData.items);
@@ -54,7 +55,7 @@ const NewsFeed = ({ filter }) => {
 
   // Trigger fetch on filter or page change
   useEffect(() => {
-    // fetchNews();
+    fetchNews();
   }, [debouncedFilter, page]);
 
   const handleReaction = (postTitle) => {
@@ -71,8 +72,8 @@ const NewsFeed = ({ filter }) => {
 
   const handleScroll = () => {
     if (
-      window.innerHeight + window.scrollY >=
-      document.body.offsetHeight - 100
+      !loading &&
+      window.innerHeight + window.scrollY >= document.body.offsetHeight - 200
     ) {
       setPage((prevPage) => prevPage + 1);
     }
@@ -89,56 +90,60 @@ const NewsFeed = ({ filter }) => {
         darkMode ? "bg-gray-800  text-white" : "bg-gray-100  text-gray-900"
       }`}>
       <div className="space-y-4">
-        {news.map((item, index) => (
-          <>
-            <hr
-              className={`border-t border-solid ${
-                darkMode ? "border-gray-700" : "border-gray-300"
-              }`}
-            />
-            <div
-              key={index}
-              className={`p-4 rounded-lg cursor-pointer space-y-4 ${
-                darkMode
-                  ? "hover:bg-gray-900 border-gray-700 bg-slate-700"
-                  : "bg-gray-200 border-gray-300 hover:bg-gray-300"
-              }`}>
-              <div className="flex items-center gap-3">
-                {item?.pagemap?.cse_thumbnail && (
-                  <div
-                    style={{
-                      backgroundImage: `url(${item?.pagemap?.cse_thumbnail[0].src})`,
-                    }}
-                    className="h-7 w-7 bg-center bg-cover rounded-full"></div>
-                )}
-                <h2 className="text-xl font-bold">{item.title}</h2>
-              </div>
-              {item.snippet && <p>{item.snippet}</p>}
-
-              {(item?.pagemap?.cse_image || item?.pagemap?.cse_thumbnail) && (
-                <div className="relative w-full max-h-[450px] bg-gray-300 rounded-md overflow-hidden">
-                  {/* Blurred background */}
-                  <img
-                    src={
-                      item.pagemap.cse_image[0].src ||
-                      item?.pagemap?.cse_thumbnail[0].src
-                    }
-                    alt=""
-                    className="absolute inset-0 w-full h-full object-cover blur-md"
-                    aria-hidden="true"
-                  />
-
-                  {/* Centered image */}
-                  <img
-                    src={item.pagemap.cse_image[0].src}
-                    alt="News Thumbnail"
-                    className="relative mx-auto h-full object-contain z-10"
-                  />
+        {news.length === 0 ? (
+          <NewsShimmer />
+        ) : (
+          news.map((item, index) => (
+            <>
+              <hr
+                className={`border-t border-solid ${
+                  darkMode ? "border-gray-700" : "border-gray-300"
+                }`}
+              />
+              <div
+                key={index}
+                className={`p-4 rounded-lg cursor-pointer space-y-4 ${
+                  darkMode
+                    ? "hover:bg-gray-900 border-gray-700 bg-slate-700"
+                    : "bg-gray-200 border-gray-300 hover:bg-gray-300"
+                }`}>
+                <div className="flex items-center gap-3">
+                  {item?.pagemap?.cse_thumbnail && (
+                    <div
+                      style={{
+                        backgroundImage: `url(${item?.pagemap?.cse_thumbnail[0].src})`,
+                      }}
+                      className="h-7 w-7 bg-center bg-cover rounded-full"></div>
+                  )}
+                  <h2 className="text-xl font-bold">{item.title}</h2>
                 </div>
-              )}
-            </div>
-          </>
-        ))}
+                {item.snippet && <p>{item.snippet}</p>}
+
+                {(item?.pagemap?.cse_image || item?.pagemap?.cse_thumbnail) && (
+                  <div className="relative w-full max-h-[450px] bg-gray-300 rounded-md overflow-hidden">
+                    {/* Blurred background */}
+                    <img
+                      src={
+                        item.pagemap.cse_image[0].src ||
+                        item?.pagemap?.cse_thumbnail[0].src
+                      }
+                      alt=""
+                      className="absolute inset-0 w-full h-full object-cover blur-md"
+                      aria-hidden="true"
+                    />
+
+                    {/* Centered image */}
+                    <img
+                      src={item.pagemap.cse_image[0].src}
+                      alt="News Thumbnail"
+                      className="relative mx-auto h-full object-contain z-10"
+                    />
+                  </div>
+                )}
+              </div>
+            </>
+          ))
+        )}
         {loading && (
           <p className="text-center my-[10px] text-xl">Loading more news...</p>
         )}

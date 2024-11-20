@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { FaBookmark, FaRegBookmark } from "react-icons/fa"; // Import bookmark icons
 import context from "../Context/context";
+import { CoursebooksShimmer } from "../Components/Shimmer";
 
 const Coursebooks = () => {
   const [books, setBooks] = useState([]);
@@ -52,72 +53,76 @@ const Coursebooks = () => {
         </p>
       </div>
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {books.map((book) => {
-          const isBookmarked = bookmarkedBooks.has(book.id);
-          return (
-            <div
-              key={book.id}
-              className={`p-4 rounded-lg shadow-md h-full transition-all relative ${
-                darkMode
-                  ? "bg-gray-800 text-white border hover:bg-gray-700 border-gray-700"
-                  : "bg-white text-black border hover:bg-zinc-200 border-gray-200"
-              }  hover:shadow-xl`}>
-              {/* Bookmark Icon */}
+        {books.length === 0 ? (
+          <CoursebooksShimmer />
+        ) : (
+          books.map((book) => {
+            const isBookmarked = bookmarkedBooks.has(book.id);
+            return (
               <div
-                className="absolute top-2 right-2 cursor-pointer"
-                onClick={() => handleBookmarkToggle(book.id)}>
-                {isBookmarked ? (
-                  <FaBookmark className="text-blue-500 text-xl" />
-                ) : (
-                  <FaRegBookmark className="text-gray-500 text-xl" />
-                )}
-              </div>
+                key={book.id}
+                className={`p-4 rounded-lg shadow-md h-full transition-all relative ${
+                  darkMode
+                    ? "bg-gray-800 text-white border hover:bg-gray-700 border-gray-700"
+                    : "bg-white text-black border hover:bg-zinc-200 border-gray-200"
+                }  hover:shadow-xl`}>
+                {/* Bookmark Icon */}
+                <div
+                  className="absolute top-2 right-2 cursor-pointer"
+                  onClick={() => handleBookmarkToggle(book.id)}>
+                  {isBookmarked ? (
+                    <FaBookmark className="text-blue-500 text-xl" />
+                  ) : (
+                    <FaRegBookmark className="text-gray-500 text-xl" />
+                  )}
+                </div>
 
-              <h3
-                className={`font-bold text-lg mb-2 truncate ${
-                  darkMode ? "text-white" : "text-black"
-                }`}>
-                {book?.volumeInfo?.title}
-              </h3>
-              <img
-                src={book?.volumeInfo?.imageLinks?.thumbnail}
-                alt="Book cover"
-                className="h-48 object-cover mb-4 rounded"
-              />
-              <p
-                className={`text-sm mb-1 ${
-                  darkMode ? "text-gray-300" : "text-gray-500"
-                }`}>
-                Author: {book?.volumeInfo?.authors?.[0] || "Unknown"}
-              </p>
-              <p
-                className={`text-sm mb-1 ${
-                  darkMode ? "text-gray-300" : "text-gray-500"
-                }`}>
-                Publisher: {book?.volumeInfo?.publisher || "Unknown"}
-              </p>
-              <p
-                className={`text-sm mb-2 ${
-                  darkMode ? "text-gray-300" : "text-gray-500"
-                }`}>
-                Published: {book?.volumeInfo?.publishedDate || "Unknown"}
-              </p>
-              <p
-                className={`text-sm opacity-80 line-clamp-2 ${
-                  darkMode ? "text-gray-400" : "text-gray-600"
-                }`}>
-                {book?.volumeInfo?.description || "No description available"}
-              </p>
-              <a
-                href={book?.volumeInfo?.previewLink}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-blue-500 underline mt-2 block">
-                Preview
-              </a>
-            </div>
-          );
-        })}
+                <h3
+                  className={`font-bold text-lg mb-2 truncate ${
+                    darkMode ? "text-white" : "text-black"
+                  }`}>
+                  {book?.volumeInfo?.title}
+                </h3>
+                <img
+                  src={book?.volumeInfo?.imageLinks?.thumbnail}
+                  alt="Book cover"
+                  className="h-48 object-cover mb-4 rounded"
+                />
+                <p
+                  className={`text-sm mb-1 ${
+                    darkMode ? "text-gray-300" : "text-gray-500"
+                  }`}>
+                  Author: {book?.volumeInfo?.authors?.[0] || "Unknown"}
+                </p>
+                <p
+                  className={`text-sm mb-1 ${
+                    darkMode ? "text-gray-300" : "text-gray-500"
+                  }`}>
+                  Publisher: {book?.volumeInfo?.publisher || "Unknown"}
+                </p>
+                <p
+                  className={`text-sm mb-2 ${
+                    darkMode ? "text-gray-300" : "text-gray-500"
+                  }`}>
+                  Published: {book?.volumeInfo?.publishedDate || "Unknown"}
+                </p>
+                <p
+                  className={`text-sm opacity-80 line-clamp-2 ${
+                    darkMode ? "text-gray-400" : "text-gray-600"
+                  }`}>
+                  {book?.volumeInfo?.description || "No description available"}
+                </p>
+                <a
+                  href={book?.volumeInfo?.previewLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-500 underline mt-2 block">
+                  Preview
+                </a>
+              </div>
+            );
+          })
+        )}
       </div>
     </div>
   );

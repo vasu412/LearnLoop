@@ -13,7 +13,7 @@ const PostForm = () => {
       }`}>
       {/* User's Profile Image & Placeholder */}
       <div
-        className={`w-full sm:w-[500px] h-fit px-10 py-5 rounded-lg ${
+        className={`w-full sm:w-[500px] h-fit px-10 py-5 rounded-sm ${
           darkMode ? "bg-gray-800" : "bg-white"
         }`}
         style={{ width: "730px" }}>

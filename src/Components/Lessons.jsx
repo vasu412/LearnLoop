@@ -37,7 +37,7 @@ const Lessons = ({ lesson, isBookmarked, darkMode }) => {
         {isBookmarked ? (
           <FaBookmark className="text-blue-500 text-xl" />
         ) : (
-          <FaRegBookmark className="text-gray-800 text-xl" />
+          <FaRegBookmark className="text-gray-400 text-xl" />
         )}
       </div>
       <h3 className="text-xl font-semibold">{lesson.title}</h3>

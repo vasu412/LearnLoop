@@ -74,10 +74,8 @@ const SharePost = ({ setShowPopup }) => {
             value={postContent}
             onChange={(e) => setPostContent(e.target.value)}
             placeholder="Write something..."
-            className={`w-full p-4 border rounded-md mb-4 resize-none ${
-              darkMode
-                ? "bg-gray-800 text-white border-gray-600"
-                : "bg-gray-100 text-gray-800 border-gray-300"
+            className={`w-full p-4  rounded-md mb-4 resize-none ${
+              darkMode ? "bg-gray-800 text-white" : "bg-gray-100 text-gray-800"
             }`}
             rows="4"
           />

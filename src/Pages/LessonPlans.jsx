@@ -89,6 +89,7 @@ const LessonPlans = () => {
                 lesson={lesson}
                 isBookmarked={isBookmarked}
                 darkMode={darkMode}
+                key={lesson.title}
               />
             );
           })

@@ -6,6 +6,7 @@ import "swiper/css/pagination";
 import "swiper/css/navigation";
 
 import "../index.css";
+import { NewsCarouselShimmer } from "./Shimmer";
 
 const NewsCarousel = ({ apiKey, darkMode }) => {
   const [articles, setArticles] = useState([]);
@@ -49,36 +50,42 @@ const NewsCarousel = ({ apiKey, darkMode }) => {
           1024: { slidesPerView: 3 },
         }}
         className="news-carousel">
-        {articles.map((article, index) => (
-          <SwiperSlide key={index}>
-            <a href={article.url} target="_blank" rel="noopener noreferrer">
-              <div
-                className="h-56 bg-cover bg-center rounded-lg flex flex-col justify-end p-4 text-white relative"
-                style={{
-                  backgroundImage: `url(${article.urlToImage})`,
-                }}>
-                <div className="bg-gradient-to-t from-black via-transparent to-transparent h-full w-full absolute inset-0 rounded-lg"></div>
-                <div className="relative z-10">
-                  <h3 className="font-bold text-lg truncate">
-                    {article.title || "Untitled"}
-                  </h3>
-                  <p className="text-sm truncate">
-                    {article.description || "No description available"}...
-                  </p>
-                  <div className="text-xs mt-2">
-                    <span>
-                      {article.author
-                        ? `By ${article.author}`
-                        : "Unknown Author"}
-                    </span>{" "}
-                    |{" "}
-                    <span>{new Date(article.publishedAt).toDateString()}</span>
+        {articles.length === 0 ? (
+          <NewsCarouselShimmer />
+        ) : (
+          articles.map((article, index) => (
+            <SwiperSlide key={index}>
+              <a href={article.url} target="_blank" rel="noopener noreferrer">
+                <div
+                  className="h-56 bg-cover bg-center rounded-lg flex flex-col justify-end p-4 text-white relative"
+                  style={{
+                    backgroundImage: `url(${article.urlToImage})`,
+                  }}>
+                  <div className="bg-gradient-to-t from-black via-transparent to-transparent h-full w-full absolute inset-0 rounded-lg"></div>
+                  <div className="relative z-10">
+                    <h3 className="font-bold text-lg truncate">
+                      {article.title || "Untitled"}
+                    </h3>
+                    <p className="text-sm truncate">
+                      {article.description || "No description available"}...
+                    </p>
+                    <div className="text-xs mt-2">
+                      <span>
+                        {article.author
+                          ? `By ${article.author}`
+                          : "Unknown Author"}
+                      </span>{" "}
+                      |{" "}
+                      <span>
+                        {new Date(article.publishedAt).toDateString()}
+                      </span>
+                    </div>
                   </div>
                 </div>
-              </div>
-            </a>
-          </SwiperSlide>
-        ))}
+              </a>
+            </SwiperSlide>
+          ))
+        )}
       </Swiper>
     </div>
   );

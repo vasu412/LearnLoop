@@ -1,5 +1,6 @@
 import React from "react";
 import { FaMoon, FaSearch, FaSun, FaUserCircle } from "react-icons/fa";
+import { useSelector } from "react-redux";
 
 const NavBar = ({ filter, setFilter, darkMode, setDarkMode }) => {
   // Toggle Dark/Light mode
@@ -10,6 +11,20 @@ const NavBar = ({ filter, setFilter, darkMode, setDarkMode }) => {
   const handleFilterChange = (e) => {
     setFilter(e.target.value);
   };
+  const num = useSelector((state) => state.updater);
+
+  const placeholder =
+    num === 1
+      ? "Search for News or Announcements..."
+      : num === 2
+      ? "Search for Events..."
+      : num === 6
+      ? "Search for Websites..."
+      : num === 5
+      ? "Search for Lessons..."
+      : num === 7
+      ? "Search for Coursebooks..."
+      : "";
   return (
     <nav
       className={`flex items-center sticky top-0 z-40 justify-between p-4 border-b  ${
@@ -21,20 +36,22 @@ const NavBar = ({ filter, setFilter, darkMode, setDarkMode }) => {
         </h1>
       </div>
 
-      <div className="relative">
-        <input
-          type="text"
-          value={filter}
-          onChange={handleFilterChange}
-          placeholder="Search for news or announcements..."
-          className={`w-96 p-2 px-4 rounded-full  ${
-            darkMode
-              ? "bg-gray-800 text-white border-gray-700"
-              : "bg-gray-100 text-gray-900 border-gray-300"
-          }`}
-        />
-        <FaSearch className="absolute right-3 top-3 text-gray-500" />
-      </div>
+      {num !== 0 && num !== 3 && num !== 8 && (
+        <div className="relative">
+          <input
+            type="text"
+            value={filter}
+            onChange={handleFilterChange}
+            placeholder={placeholder}
+            className={`w-96 p-2 px-4 rounded-full  ${
+              darkMode
+                ? "bg-gray-800 text-white border-gray-700"
+                : "bg-gray-100 text-gray-900 border-gray-300"
+            }`}
+          />
+          <FaSearch className="absolute right-3 top-3 text-gray-500" />
+        </div>
+      )}
 
       <div className="flex items-center space-x-3">
         {/* Dark Mode Toggle */}

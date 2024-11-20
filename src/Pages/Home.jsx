@@ -25,7 +25,7 @@ const Home = () => {
         {/* Sidebar (Left Side for Categories) */}
         <LeftNavBar darkMode={darkMode} />
 
-        {/* Main Content Area (Right Side) */}
+        {/* Main Content Area  */}
         <Outlet />
       </div>
     </div>
