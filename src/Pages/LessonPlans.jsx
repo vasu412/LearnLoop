@@ -3,46 +3,57 @@ import { lessons } from "../Data/Lessons.jsx";
 import Dropdown from "../Components/Dropdown";
 import context from "../Context/context.js";
 import Lessons from "../Components/Lessons.jsx";
+import { useLocation } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { update } from "../Context/slice.js";
 
 const LessonPlans = () => {
   const [selectedSubject, setSelectedSubject] = useState("");
   const [selectedDuration, setSelectedDuration] = useState("");
   const [filteredLessons, setFilteredLessons] = useState([]);
-  const [bookmarkedBooks, setBookmarkedBooks] = useState(new Set()); // To store bookmarked books
   const { darkMode } = useContext(context);
+  const inputValue = useSelector((state) => state.updater);
+  const { pathname } = useLocation();
+  const dispatch = useDispatch();
+
+  const allLessons = Object.values(lessons.subjects).flat();
+
+  useEffect(() => {
+    if (inputValue === "remove") setFilteredLessons(allLessons);
+    else if (pathname === "/home/lesson-plans") {
+      const dataToBeFiltered =
+        filteredLessons.length > 0 ? filteredLessons : allLessons;
+      const data = dataToBeFiltered.filter((event) =>
+        event.title.toLowerCase().includes(inputValue.toLowerCase())
+      );
+      setFilteredLessons(data);
+    }
+  }, [inputValue]);
 
   // Apply filters dynamically when state changes
   useEffect(() => {
     const filterLessons = () => {
       const allLessons = Object.values(lessons.subjects).flat();
+      console.log(allLessons);
       const filtered = allLessons.filter((lesson) => {
         const matchesSubject = selectedSubject
-          ? lesson.title
-              .toLowerCase()
-              .includes(selectedSubject.toLowerCase()) ||
-            lesson.id.toLowerCase().includes(selectedSubject.toLowerCase())
+          ? lesson.subject.toLowerCase().includes(selectedSubject.toLowerCase())
           : true;
         const matchesDuration = selectedDuration
           ? lesson.duration === selectedDuration
           : true;
         return matchesSubject && matchesDuration;
       });
+      console.log(filtered);
       setFilteredLessons(filtered);
     };
-
     filterLessons();
   }, [selectedSubject, selectedDuration]);
 
-  const handleBookmarkToggle = (bookId) => {
-    setBookmarkedBooks((prev) => {
-      const newBookmarkedBooks = new Set(prev);
-      if (newBookmarkedBooks.has(bookId)) {
-        newBookmarkedBooks.delete(bookId); // Remove if already bookmarked
-      } else {
-        newBookmarkedBooks.add(bookId); // Add if not bookmarked
-      }
-      return newBookmarkedBooks;
-    });
+  const handleFilters = () => {
+    setSelectedDuration("");
+    setSelectedSubject("");
+    dispatch(update("remove"));
   };
 
   return (
@@ -76,21 +87,23 @@ const LessonPlans = () => {
           selectedOption={selectedDuration}
           onSelect={(option) => setSelectedDuration(option)}
         />
+        <button
+          className={` p-2 px-4 flex items-center gap-2 rounded-md w-fit text-left ${
+            darkMode
+              ? "bg-gray-700 text-white border-gray-600 hover:bg-gray-600"
+              : "bg-slate-200 text-black border-gray-300 hover:bg-slate-300"
+          } shadow-md focus:outline-none`}
+          onClick={handleFilters}>
+          Clear Filters
+        </button>
       </div>
 
       {/* Lessons Cards Section */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
         {filteredLessons.length > 0 ? (
           filteredLessons.map((lesson) => {
-            const isBookmarked = bookmarkedBooks.has(lesson.id);
-
             return (
-              <Lessons
-                lesson={lesson}
-                isBookmarked={isBookmarked}
-                darkMode={darkMode}
-                key={lesson.title}
-              />
+              <Lessons lesson={lesson} darkMode={darkMode} key={lesson.title} />
             );
           })
         ) : (

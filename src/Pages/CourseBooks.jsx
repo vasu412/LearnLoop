@@ -2,14 +2,29 @@ import React, { useContext, useEffect, useState } from "react";
 import { FaBookmark, FaRegBookmark } from "react-icons/fa"; // Import bookmark icons
 import context from "../Context/context";
 import { CoursebooksShimmer } from "../Components/Shimmer";
+import { useSelector } from "react-redux";
+import { useLocation } from "react-router-dom";
 
 const Coursebooks = () => {
   const [books, setBooks] = useState([]);
   const [bookmarkedBooks, setBookmarkedBooks] = useState(new Set()); // To store bookmarked books
   const { darkMode } = useContext(context);
+  const inputValue = useSelector((state) => state.updater);
+  const { pathname } = useLocation();
+  const [debouncedFilter, setDebouncedFilter] = useState("");
+
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      pathname === "/home/coursebooks" && setDebouncedFilter(inputValue);
+    }, 300); // Adjust the debounce delay as needed
+
+    return () => clearTimeout(handler);
+  }, [inputValue]);
+
   const handleSearch = async () => {
+    const searchTerm = debouncedFilter === "" ? "Maths" : debouncedFilter;
     const API_KEY = "AIzaSyBrf0tKzv29itfDgqsV7dHu5WtdfVp4jy4";
-    const url = `https://www.googleapis.com/books/v1/volumes?q=Maths&key=${API_KEY}`;
+    const url = `https://www.googleapis.com/books/v1/volumes?q=${searchTerm}&key=${API_KEY}`;
     try {
       const response = await fetch(url);
       const data = await response.json();
@@ -22,7 +37,7 @@ const Coursebooks = () => {
 
   useEffect(() => {
     handleSearch();
-  }, []);
+  }, [debouncedFilter]);
 
   const handleBookmarkToggle = (bookId) => {
     setBookmarkedBooks((prev) => {

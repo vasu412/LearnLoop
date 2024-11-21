@@ -10,8 +10,8 @@ import {
   FaLink,
 } from "react-icons/fa";
 import { BsChatSquareText } from "react-icons/bs";
-import { Link } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { Link, useLocation } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import { update } from "../Context/slice";
 
 const LeftNavBar = ({ darkMode }) => {
@@ -22,9 +22,8 @@ const LeftNavBar = ({ darkMode }) => {
     darkMode ? "hover:bg-gray-700" : "hover:bg-gray-200"
   } py-3 px-4 rounded-xl`;
 
-  const num = useSelector((state) => state.updater);
   const colorOnClick = `${darkMode ? "bg-gray-700" : "bg-gray-200"}`;
-
+  const { pathname } = useLocation();
   const dispatch = useDispatch();
   return (
     <div
@@ -38,7 +37,7 @@ const LeftNavBar = ({ darkMode }) => {
         <Link to={"/home/"} onClick={() => dispatch(update(0))}>
           <li
             className={`flex items-center space-x-3 ${
-              num === 0 && colorOnClick
+              pathname === "/home/" && colorOnClick
             } ${commonHoverClasses}`}>
             <FaHome className="text-xl" />
             <span className={commonTextClasses}>Home</span>
@@ -60,28 +59,28 @@ const LeftNavBar = ({ darkMode }) => {
             UPDATES
           </span>
         </li>
-        <Link to={"/home/news"} onClick={() => dispatch(update(1))}>
+        <Link to={"/home/news"}>
           <li
             className={`flex items-center space-x-3 ${
-              num === 1 && colorOnClick
+              pathname === "/home/news" && colorOnClick
             } ${commonHoverClasses}`}>
             <FaBullhorn className="text-xl" />
             <span className={commonTextClasses}>News & Announcements</span>
           </li>
         </Link>
-        <Link to={"/home/events"} onClick={() => dispatch(update(2))}>
+        <Link to={"/home/events"}>
           <li
             className={`flex items-center space-x-3 ${
-              num === 2 && colorOnClick
+              pathname === "/home/events" && colorOnClick
             } ${commonHoverClasses}`}>
             <FaCalendarAlt className="text-xl" />
             <span className={commonTextClasses}>Events</span>
           </li>
         </Link>
-        <Link to={"/home/wishlist"} onClick={() => dispatch(update(3))}>
+        <Link to={"/home/wishlist"}>
           <li
             className={`flex items-center space-x-3 ${
-              num === 3 && colorOnClick
+              pathname === "/home/wishlist" && colorOnClick
             } ${commonHoverClasses}`}>
             <FaRegLightbulb className="text-xl" />
             <span className={commonTextClasses}>Feature Wishlist</span>
@@ -103,10 +102,10 @@ const LeftNavBar = ({ darkMode }) => {
             CONNECT
           </span>
         </li>
-        <Link to={"/home/chat"} onClick={() => dispatch(update(4))}>
+        <Link to={"/home/tutorChatRoom"}>
           <li
             className={`flex items-center space-x-3 ${
-              num === 4 && colorOnClick
+              pathname === "/home/tutorChatRoom" && colorOnClick
             } ${commonHoverClasses}`}>
             <BsChatSquareText className="text-lg" />
             <span className={commonTextClasses}>Tutor Chat Room</span>
@@ -129,28 +128,28 @@ const LeftNavBar = ({ darkMode }) => {
           </span>
         </li>
 
-        <Link to={"/home/lesson-plans"} onClick={() => dispatch(update(5))}>
+        <Link to={"/home/lesson-plans"}>
           <li
             className={`flex items-center space-x-3 ${
-              num === 5 && colorOnClick
+              pathname === "/home/lesson-plans" && colorOnClick
             } ${commonHoverClasses}`}>
             <FaBook className="text-xl" />
             <span className={commonTextClasses}>Lesson Plans</span>
           </li>
         </Link>
-        <Link to={"/home/websites"} onClick={() => dispatch(update(6))}>
+        <Link to={"/home/websites"}>
           <li
             className={`flex items-center space-x-3 ${
-              num === 6 && colorOnClick
+              pathname === "/home/websites" && colorOnClick
             } ${commonHoverClasses}`}>
             <FaLink className="text-xl" />
             <span className={commonTextClasses}>Websites</span>
           </li>
         </Link>
-        <Link to={"/home/coursebooks"} onClick={() => dispatch(update(7))}>
+        <Link to={"/home/coursebooks"}>
           <li
             className={`flex items-center space-x-3 ${
-              num === 7 && colorOnClick
+              pathname === "/home/coursebooks" && colorOnClick
             } ${commonHoverClasses}`}>
             <FaBook className="text-xl" />
             <span className={commonTextClasses}>Coursebooks</span>
@@ -163,22 +162,20 @@ const LeftNavBar = ({ darkMode }) => {
           }`}
         />
 
-        <Link
-          to={"/home/resources/community"}
-          onClick={() => dispatch(update(8))}>
+        <Link to={"/home/resources/community"}>
           <li
             className={`flex items-center space-x-3 ${
-              num === 8 && colorOnClick
+              pathname === "/home/resources/community" && colorOnClick
             } ${commonHoverClasses}`}>
             <FaChalkboardTeacher className="text-xl" />
             <span className={commonTextClasses}>Community Features</span>
           </li>
         </Link>
         {/* Settings */}
-        <Link to={"/home/settings"} onClick={() => dispatch(update(9))}>
+        <Link to={"/home/settings"}>
           <li
             className={`flex items-center space-x-3 ${
-              num === 9 && colorOnClick
+              pathname === "/home/settings" && colorOnClick
             } ${commonHoverClasses}`}>
             <FaCog className="text-xl" />
             <span className={commonTextClasses}>Settings & Documentation</span>

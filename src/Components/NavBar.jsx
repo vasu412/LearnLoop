@@ -1,33 +1,52 @@
 import { getAuth } from "firebase/auth";
-import React from "react";
-import { FaMoon, FaSearch, FaSun, FaUserCircle } from "react-icons/fa";
-import { useSelector } from "react-redux";
+import React, { useEffect, useRef, useState } from "react";
+import { FaMoon, FaRegBookmark, FaSearch, FaSun } from "react-icons/fa";
+import { IoClose } from "react-icons/io5";
+import { useDispatch, useSelector } from "react-redux";
+import { useLocation } from "react-router-dom";
+import { update } from "../Context/slice";
 
-const NavBar = ({ filter, setFilter, darkMode, setDarkMode }) => {
+const NavBar = ({ darkMode, setDarkMode }) => {
+  const [inputValue, setInputValue] = useState("");
   const auth = getAuth();
-  console.log(auth.currentUser.photoURL);
+  const dispatch = useDispatch();
+  const { pathname } = useLocation();
+  // useRef to remember in which page user used inputbox
+  const path = useRef(null);
+  const value = useRef(null);
   // Toggle Dark/Light mode
   const toggleDarkMode = () => {
     setDarkMode(!darkMode);
   };
 
+  console.log(pathname);
   const handleFilterChange = (e) => {
-    setFilter(e.target.value);
+    path.current = pathname;
+    value.current = e.target.value;
+    setInputValue(e.target.value);
+    dispatch(update(e.target.value));
   };
   const num = useSelector((state) => state.updater);
 
   const placeholder =
-    num === 1
+    pathname === "/home/news"
       ? "Search for News or Announcements..."
-      : num === 2
+      : pathname === "/home/events"
       ? "Search for Events..."
-      : num === 6
+      : pathname === "/home/websites"
       ? "Search for Websites..."
-      : num === 5
+      : pathname === "/home/lesson-plans"
       ? "Search for Lessons..."
-      : num === 7
+      : pathname === "/home/coursebooks"
       ? "Search for Coursebooks..."
       : "";
+
+  useEffect(() => {
+    console.log(num);
+    if (path.current !== pathname || num === "remove") setInputValue("");
+    else setInputValue(value.current);
+  }, [pathname, num]);
+
   return (
     <nav
       className={`flex items-center sticky top-0 z-40 justify-between p-4 border-b  ${
@@ -39,11 +58,11 @@ const NavBar = ({ filter, setFilter, darkMode, setDarkMode }) => {
         </h1>
       </div>
 
-      {num !== 0 && num !== 3 && num !== 8 && (
+      {num !== 0 && num !== 3 && num !== 8 && placeholder !== "" && (
         <div className="relative">
           <input
             type="text"
-            value={filter}
+            value={inputValue}
             onChange={handleFilterChange}
             placeholder={placeholder}
             className={`w-96 p-2 px-4 rounded-full  ${
@@ -52,11 +71,22 @@ const NavBar = ({ filter, setFilter, darkMode, setDarkMode }) => {
                 : "bg-gray-100 text-gray-900 border-gray-300"
             }`}
           />
-          <FaSearch className="absolute right-3 top-3 text-gray-500" />
+          {inputValue === "" ? (
+            <FaSearch className="absolute right-3 top-3 text-gray-500" />
+          ) : (
+            <IoClose
+              className="absolute right-3 top-3 cursor-pointer text-gray-500"
+              onClick={() => setInputValue("")}
+            />
+          )}
         </div>
       )}
 
       <div className="flex items-center space-x-3">
+        {/* BookMark Icon */}
+        <button className="p-2 rounded-full border border-gray-300  transition duration-200">
+          <FaRegBookmark />
+        </button>
         {/* Dark Mode Toggle */}
         <button
           onClick={toggleDarkMode}

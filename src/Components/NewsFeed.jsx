@@ -2,22 +2,25 @@ import React, { useState, useEffect, useCallback, useContext } from "react";
 import { newsData } from "../Data/newsData";
 import context from "../Context/context";
 import { NewsShimmer } from "./Shimmer";
+import { useSelector } from "react-redux";
+import { useLocation } from "react-router-dom";
 
-const NewsFeed = ({ filter }) => {
+const NewsFeed = () => {
   const [news, setNews] = useState(newsData.items);
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
-  const [debouncedFilter, setDebouncedFilter] = useState(filter);
+  const [debouncedFilter, setDebouncedFilter] = useState("");
   const { darkMode } = useContext(context);
-
+  const inputValue = useSelector((state) => state.updater);
+  const { pathname } = useLocation();
   // Debounce the filter input
   useEffect(() => {
     const handler = setTimeout(() => {
-      setDebouncedFilter(filter);
+      pathname === "/home/news" && setDebouncedFilter(inputValue);
     }, 300); // Adjust the debounce delay as needed
 
     return () => clearTimeout(handler);
-  }, [filter]);
+  }, [inputValue]);
 
   // Fetch news with updated logic
   const fetchNews = useCallback(async () => {
@@ -55,7 +58,8 @@ const NewsFeed = ({ filter }) => {
 
   // Trigger fetch on filter or page change
   useEffect(() => {
-    fetchNews();
+    // setNews(newsData);
+    // fetchNews();
   }, [debouncedFilter, page]);
 
   const handleScroll = () => {

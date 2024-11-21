@@ -28,7 +28,7 @@ const NewsCarousel = ({ apiKey, darkMode }) => {
       }
     };
 
-    fetchNews();
+    // fetchNews();
   }, [apiKey]);
 
   return (

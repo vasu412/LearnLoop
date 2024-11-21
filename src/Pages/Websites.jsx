@@ -1,10 +1,24 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { websiteData } from "../Data/Websites";
 import context from "../Context/context";
+import { useSelector } from "react-redux";
+import { useLocation } from "react-router-dom";
 
 const Websites = () => {
   const [bookmarks, setBookmarks] = useState([]);
   const { darkMode } = useContext(context);
+  const inputValue = useSelector((state) => state.updater);
+  const [webData, setWebData] = useState(websiteData.websites);
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    if (pathname === "/home/websites" && inputValue !== "remove") {
+      const data = websiteData.websites.filter((web) =>
+        web.name.toLowerCase().includes(inputValue.toLowerCase())
+      );
+      setWebData(data);
+    }
+  }, [inputValue]);
 
   const handleBookmark = (id) => {
     if (bookmarks.includes(id)) {
@@ -30,7 +44,7 @@ const Websites = () => {
         </p>
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 p-6">
-        {websiteData.websites.map((website) => (
+        {webData.map((website) => (
           <div
             key={website.id}
             className={`p-6 rounded-lg shadow-lg ${

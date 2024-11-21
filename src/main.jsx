@@ -12,6 +12,7 @@ import LessonPlans from "./Pages/LessonPlans";
 import Websites from "./Pages/Websites";
 import Coursebooks from "./Pages/CourseBooks";
 import PostPreview from "./Components/PreviewPost";
+import TutorChatRoom from "./Pages/TutorChatRoom";
 
 const router = createBrowserRouter([
   {
@@ -53,6 +54,10 @@ const router = createBrowserRouter([
       {
         path: "/home/postpreview/:id",
         element: <PostPreview />,
+      },
+      {
+        path: "/home/tutorChatRoom",
+        element: <TutorChatRoom />,
       },
     ],
   },

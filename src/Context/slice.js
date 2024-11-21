@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const updaterSlice = createSlice({
   name: "updateData",
-  initialState: 0,
+  initialState: "",
   reducers: {
     update(state, action) {
       return action.payload;

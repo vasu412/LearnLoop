@@ -1,11 +1,27 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { events } from "../Data/Events";
 import context from "../Context/context";
 import Events from "../Components/Events";
+import { useLocation } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const EventPage = () => {
   const { darkMode } = useContext(context); // Access darkMode from context
+  const inputValue = useSelector((state) => state.updater);
+  const { pathname } = useLocation();
+  const [eventData, setEventData] = useState(events);
 
+  useEffect(() => {
+    if (pathname === "/home/events" && inputValue !== "remove") {
+      const data = events.filter(
+        (event) =>
+          event.title.toLowerCase().includes(inputValue) ||
+          event.location.toLowerCase().includes(inputValue) ||
+          event.description.toLowerCase().includes(inputValue)
+      );
+      setEventData(data);
+    }
+  }, [inputValue]);
   return (
     <div
       className={`w-[calc(100vw-275px)] h-[90.6vh] overflow-scroll py-8 px-4 sm:px-8 ${
@@ -23,7 +39,7 @@ const EventPage = () => {
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-        {events.map((event) => (
+        {eventData.map((event) => (
           <Events event={event} darkMode={darkMode} key={event.title} />
         ))}
       </div>

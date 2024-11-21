@@ -4,6 +4,7 @@ export const lessons = {
       {
         id: "BIO001",
         title: "Understanding Photosynthesis",
+        subject: "Biology",
         gradeLevel: "Grade 6",
         duration: "45 minutes",
         previewImage: "https://source.unsplash.com/featured/?photosynthesis",
@@ -38,6 +39,7 @@ export const lessons = {
       {
         id: "BIO002",
         title: "Human Digestive System",
+        subject: "Biology",
         gradeLevel: "Grade 7",
         duration: "50 minutes",
         previewImage: "https://source.unsplash.com/featured/?biology,digestive",
@@ -73,6 +75,7 @@ export const lessons = {
       {
         id: "MATH001",
         title: "Introduction to Fractions",
+        subject: "Mathematics",
         gradeLevel: "Grade 4",
         duration: "30 minutes",
         previewImage: "https://source.unsplash.com/featured/?math,fractions",
@@ -108,6 +111,7 @@ export const lessons = {
         title: "Understanding Pythagoras Theorem",
         gradeLevel: "Grade 9",
         duration: "60 minutes",
+        subject: "Mathematics",
         previewImage: "https://source.unsplash.com/featured/?math,geometry",
         objectives: [
           "Explain the Pythagoras theorem",
@@ -136,11 +140,30 @@ export const lessons = {
           },
         ],
       },
+      {
+        id: "MATH001",
+        title: "Creative Geometry – Sculpting with Math",
+        subject: "Mathematics",
+        description:
+          "Students explore mathematical shapes and forms through creative sculpting activities.",
+        duration: "60 minutes",
+        gradeLevel: "6th-8th",
+        objectives: [
+          "Understand geometric properties.",
+          "Create sculptures using mathematical principles.",
+        ],
+        materials: ["Clay", "Ruler", "Protractor"],
+        previewImage: "https://artsnowlearning.org/creative-geometry-image.jpg",
+        videoLink: "https://youtube.com/creative-geometry",
+        rating: 4.7,
+        source: "https://artsnowlearning.org",
+      },
     ],
     English: [
       {
         id: "ENG001",
         title: "Exploring Poetry: Rhymes and Metaphors",
+        subject: "English",
         gradeLevel: "Grade 7",
         duration: "40 minutes",
         previewImage: "https://source.unsplash.com/featured/?poetry,literature",
@@ -178,6 +201,7 @@ export const lessons = {
         title: "The French Revolution",
         gradeLevel: "Grade 8",
         duration: "60 minutes",
+        subject: "History",
         previewImage:
           "https://source.unsplash.com/featured/?history,french-revolution",
         objectives: [
@@ -207,30 +231,30 @@ export const lessons = {
           },
         ],
       },
-    ],
-    Math: [
       {
-        id: "MATH001",
-        title: "Creative Geometry – Sculpting with Math",
+        id: "HISTORY001",
+        title: "Teaching the Transatlantic Slave Trade",
+        subject: "History",
         description:
-          "Students explore mathematical shapes and forms through creative sculpting activities.",
-        duration: "60 minutes",
-        gradeLevel: "6th-8th",
+          "Using art to teach the history and legacy of the transatlantic slave trade.",
+        duration: "90 minutes",
+        gradeLevel: "9th-12th",
         objectives: [
-          "Understand geometric properties.",
-          "Create sculptures using mathematical principles.",
+          "Understand historical contexts of the transatlantic slave trade.",
+          "Analyze art as a historical source.",
         ],
-        materials: ["Clay", "Ruler", "Protractor"],
-        previewImage: "https://artsnowlearning.org/creative-geometry-image.jpg",
-        videoLink: "https://youtube.com/creative-geometry",
-        rating: 4.7,
-        source: "https://artsnowlearning.org",
+        materials: ["Worksheets", "Historical art prints"],
+        previewImage: "https://nga.gov/teaching-slave-trade-image.jpg",
+        videoLink: "https://youtube.com/teaching-slave-trade",
+        rating: 4.8,
+        source: "https://nga.gov",
       },
     ],
     Science: [
       {
         id: "SCIENCE001",
         title: "Weather in Motion",
+        subject: "Science",
         description:
           "Learn about the science of weather patterns and how they influence our environment.",
         duration: "45 minutes",
@@ -251,6 +275,7 @@ export const lessons = {
       {
         id: "ART001",
         title: "Kandinsky’s Circles and Place Value",
+        subject: "Arts",
         description:
           "Students combine visual art and math by creating colorful circle compositions while exploring place values.",
         duration: "90 minutes",
@@ -266,29 +291,11 @@ export const lessons = {
         source: "https://artsnowlearning.org",
       },
     ],
-    History: [
-      {
-        id: "HISTORY001",
-        title: "Teaching the Transatlantic Slave Trade",
-        description:
-          "Using art to teach the history and legacy of the transatlantic slave trade.",
-        duration: "90 minutes",
-        gradeLevel: "9th-12th",
-        objectives: [
-          "Understand historical contexts of the transatlantic slave trade.",
-          "Analyze art as a historical source.",
-        ],
-        materials: ["Worksheets", "Historical art prints"],
-        previewImage: "https://nga.gov/teaching-slave-trade-image.jpg",
-        videoLink: "https://youtube.com/teaching-slave-trade",
-        rating: 4.8,
-        source: "https://nga.gov",
-      },
-    ],
     "Language Arts": [
       {
         id: "LANG001",
         title: "Exploring Narrative Writing Through Art",
+        subject: "Language Arts",
         description:
           "Students develop their narrative writing skills by examining and interpreting visual artworks.",
         duration: "60 minutes",

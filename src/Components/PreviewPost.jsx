@@ -15,7 +15,8 @@ const PostPreview = () => {
     {
       id: 1,
       title: "Feature A",
-      description: "A detailed explanation of Feature A with all its benefits.",
+      description:
+        "A detailed explanation of Feature A with all its benefits.A detailed explanation of Feature A with all its benefitsA detailed explanation of Feature A with all its benefitsA detailed explanation of Feature A with all its benefitsA detailed explanation of Feature A with all its benefitsA detailed explanation of Feature A with all its benefitsA detailed explanation of Feature A with all its benefitsA detailed explanation of Feature A with all its benefitsA detailed explanation of Feature A with all its benefitsA detailed explanation of Feature A with all its benefitsA detailed explanation of Feature A with all its benefitsA detailed explanation of Feature A with all its benefitsA detailed explanation of Feature A with all its benefitsA detailed explanation of Feature A with all its benefitsA detailed explanation of Feature A with all its benefitsA detailed explanation of Feature A with all its benefitsA detailed explanation of Feature A with all its benefitsA detailed explanation of Feature A with all its benefits",
       keywords: ["UI", "Efficiency", "Accessibility"],
       author: "JohnDoe",
       avatar: "https://via.placeholder.com/50", // Replace with real user image
@@ -75,9 +76,30 @@ const PostPreview = () => {
 
           {/* Title and Description */}
           <h2 className="text-3xl font-semibold mb-2">{post.title}</h2>
-          <p className="text-md mb-4 text-gray-700 dark:text-gray-700">
+          <p
+            className={`text-md mb-4 ${
+              darkMode ? "text-gray-200" : "text-gray-700"
+            }`}>
             {post.description}
           </p>
+          {currentUser?.photoURL && (
+            <div className="relative w-full max-h-[450px] bg-gray-300 rounded-md overflow-hidden">
+              {/* Blurred background */}
+              <img
+                src={currentUser?.photoURL}
+                alt=""
+                className="absolute inset-0 w-full h-full object-cover blur-md"
+                aria-hidden="true"
+              />
+
+              {/* Centered image */}
+              <img
+                src={currentUser?.photoURL}
+                alt="News Thumbnail"
+                className="relative mx-auto h-full object-contain z-10"
+              />
+            </div>
+          )}
 
           {/* Engagement Bar */}
           <div className="flex items-center justify-between text-gray-600 dark:text-gray-400">

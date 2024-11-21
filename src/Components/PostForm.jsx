@@ -21,11 +21,13 @@ const PostForm = () => {
         style={{ width: "1100px" }}>
         <div className="flex items-center ">
           {/* User Profile Image */}
-          <img
-            src={currentUser.photoURL} // Use a sample image or the user's image
-            alt="User"
-            className="w-12 h-12 mr-3 rounded-md object-cover"
-          />
+          {currentUser.photoURL && (
+            <img
+              src={currentUser.photoURL} // Use a sample image or the user's image
+              alt="User"
+              className="w-12 h-12 mr-3 rounded-md object-cover"
+            />
+          )}
           {/* Placeholder to click */}
           <div
             onClick={() => setShowPopup(true)}
