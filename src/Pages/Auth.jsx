@@ -1,11 +1,14 @@
 import React, { useState } from "react";
 import axios from "axios"; // For API calls
 import { motion } from "framer-motion";
-import {
-  handleAppleSignIn,
-  handleGoogleSignIn,
-} from "../Firebase/signInOptions";
 import { FaGoogle, FaApple } from "react-icons/fa";
+import {
+  getAuth,
+  signInWithPopup,
+  GoogleAuthProvider,
+  OAuthProvider,
+} from "firebase/auth";
+import { useNavigate } from "react-router-dom";
 
 const LearnLoopAuth = () => {
   const [isLogin, setIsLogin] = useState(true);
@@ -15,6 +18,33 @@ const LearnLoopAuth = () => {
     password: "",
     username: "",
   });
+
+  const auth = getAuth();
+  const Navigate = useNavigate();
+
+  const handleGoogleSignIn = async () => {
+    const provider = new GoogleAuthProvider();
+    try {
+      const result = await signInWithPopup(auth, provider);
+      const user = result.user;
+      console.log("Google User:", user);
+      Navigate("/home");
+    } catch (error) {
+      console.error("Google Sign-In Error:", error);
+    }
+  };
+
+  const handleAppleSignIn = async () => {
+    const provider = new OAuthProvider("apple.com");
+    try {
+      const result = await signInWithPopup(auth, provider);
+      const user = result.user;
+      Navigate("/home");
+      console.log("Apple User:", user);
+    } catch (error) {
+      console.error("Apple Sign-In Error:", error);
+    }
+  };
 
   // Handle Form Input Changes
   const handleChange = (e) => {

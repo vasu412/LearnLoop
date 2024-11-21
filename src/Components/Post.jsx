@@ -1,115 +1,169 @@
 import React, { useState, useContext } from "react";
-import { FaSmile, FaHeart, FaThumbsUp } from "react-icons/fa"; // Emoji icons
-import context from "../Context/context"; // Dark mode context
-import Comment from "./Comment";
+import {
+  FaSmile,
+  FaHeart,
+  FaThumbsUp,
+  FaCommentDots,
+  FaArrowUp,
+  FaArrowDown,
+} from "react-icons/fa";
+import context from "../Context/context";
+import { getAuth } from "firebase/auth";
+import PreviewPost from "./PreviewPost";
+import { useNavigate } from "react-router-dom";
 
-const Post = ({ post }) => {
-  const [reaction, setReaction] = useState(null); // Track user reaction
-  const [comments, setComments] = useState([]); // Track comments
-  const [commentInput, setCommentInput] = useState(""); // Input for new comment
+const Post = ({ post, isWishlist, openPreview }) => {
+  const [reaction, setReaction] = useState(null);
   const { darkMode } = useContext(context);
+  const { currentUser } = getAuth();
+  const [votes, setVotes] = useState(0);
 
+  const navigate = useNavigate();
   const handleReact = (emoji) => {
-    setReaction(reaction === emoji ? null : emoji); // Toggle reaction
+    setReaction(reaction === emoji ? null : emoji);
   };
 
-  const handleAddComment = () => {
-    if (commentInput.trim()) {
-      const newComment = { text: commentInput.trim(), replies: [] };
-      setComments([...comments, newComment]);
-      setCommentInput(""); // Clear input field
+  const truncateContent = (content) => {
+    const maxLines = 5;
+    const lines = content.split("\n");
+    if (lines.length > maxLines) {
+      return {
+        truncated: lines.slice(0, maxLines).join("\n"),
+        isTruncated: true,
+      };
     }
+    return { truncated: content, isTruncated: false };
   };
+
+  const { truncated, isTruncated } = truncateContent(
+    post.description || post.content
+  );
 
   return (
     <div
-      className={`shadow-lg rounded-lg p-6 mb-6 ${
-        darkMode ? "bg-gray-800 text-gray-100" : "bg-white text-gray-900"
+      className={`w-full rounded-lg p-6 ${
+        darkMode
+          ? "hover:bg-gray-800 text-gray-100"
+          : "text-gray-900 hover:bg-gray-200"
       }`}>
-      <h3 className="text-xl font-semibold">{post.title}</h3>
-      <p className="mt-4">{post.content}</p>
+      <div className="flex items-center mb-2">
+        {currentUser && currentUser.photoURL ? (
+          <div
+            style={{
+              backgroundImage: `url(${currentUser.photoURL})`,
+            }}
+            className="h-7 w-7 mr-2 bg-center bg-cover rounded-full"></div>
+        ) : (
+          <div className="h-7 w-7 mr-2 bg-gray-400 rounded-full"></div>
+        )}
+        <p>{currentUser?.displayName || "Anonymous"}</p>
+        <p className="mx-2">•</p>
+        <p>Time</p>
+      </div>
+      <h3 className="text-xl font-semibold mt-2">{post.title}</h3>
+      <p className="mt-2">
+        {truncated}
+        {isTruncated && (
+          <button
+            onClick={() => openPreview(post)}
+            className="ml-2 text-blue-500 hover:underline">
+            Read more
+          </button>
+        )}
+      </p>
+      {post.keywords && isWishlist && (
+        <div className="mt-2 flex flex-wrap gap-2">
+          {post.keywords.map((keyword, index) => (
+            <span
+              key={index}
+              className={`px-2 py-1 text-sm rounded-md ${
+                darkMode
+                  ? "bg-gray-700 text-gray-300"
+                  : "bg-gray-200 text-gray-700"
+              }`}>
+              {keyword}
+            </span>
+          ))}
+        </div>
+      )}
 
       {/* Reaction Section */}
       <div className="flex items-center space-x-4 mt-4">
-        <button
-          onClick={() => handleReact("smile")}
-          className={`text-lg ${
-            reaction === "smile" ? "text-yellow-400" : "text-gray-500"
-          }`}>
-          <FaSmile />
-        </button>
-        <button
-          onClick={() => handleReact("heart")}
-          className={`text-lg ${
-            reaction === "heart" ? "text-red-400" : "text-gray-500"
-          }`}>
-          <FaHeart />
-        </button>
-        <button
-          onClick={() => handleReact("thumbsUp")}
-          className={`text-lg ${
-            reaction === "thumbsUp" ? "text-blue-400" : "text-gray-500"
-          }`}>
-          <FaThumbsUp />
-        </button>
-      </div>
-
-      {/* Comment Section */}
-      <div className="mt-4">
-        <div className="space-y-4 mt-4">
-          {comments.length > 0 ? (
-            comments.map((comment, index) => (
-              <Comment key={index} comment={comment} />
-            ))
-          ) : (
-            <p className="text-sm text-gray-600 dark:text-gray-400">
-              No comments yet. Be the first to comment!
-            </p>
-          )}
-        </div>
-        <div className="flex mt-4">
-          <input
-            type="text"
-            value={commentInput}
-            onChange={(e) => setCommentInput(e.target.value)}
-            placeholder="Add a comment..."
-            className="w-full p-2 rounded-md  bg-gray-50 dark:bg-gray-300 text-gray-800 "
-          />
+        <div className="flex items-center gap-2 text-gray-400">
           <button
-            onClick={handleAddComment}
-            className="ml-2 bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md">
-            Add
+            onClick={() => votes >= 0 && setVotes(votes + 1)}
+            className="hover:text-green-400">
+            <FaArrowUp />
+          </button>
+          <span>{votes}</span>
+          <button
+            onClick={() => votes > 0 && setVotes(votes - 1)}
+            className="hover:text-red-400">
+            <FaArrowDown />
           </button>
         </div>
+        <button
+          onClick={() => navigate(`/home/postpreview/${post.id}`)}
+          className="text-lg text-gray-500">
+          <FaCommentDots />
+        </button>
       </div>
     </div>
   );
 };
 
-const PostsPage = () => {
+const PostsPage = ({ isWishlist = false }) => {
   const { darkMode } = useContext(context);
+  const [previewPost, setPreviewPost] = useState(null);
 
-  const posts = [
-    {
-      id: 1,
-      title: "React Hooks Deep Dive",
-      content: "Master the power of React Hooks with real-world examples.",
-    },
-    {
-      id: 2,
-      title: "CSS Grid vs Flexbox",
-      content: "Understand the key differences and when to use each layout.",
-    },
-  ];
+  const posts = isWishlist
+    ? [
+        {
+          id: 1,
+          title: "Feature A",
+          description: "A feature that allows XYZ functionality for users.",
+          keywords: ["UI", "Efficiency", "Accessibility"],
+        },
+        {
+          id: 2,
+          title: "Feature B",
+          description: "A feature to enhance ABC processes effectively.",
+          keywords: ["Backend", "Performance", "Scalability"],
+        },
+      ]
+    : [
+        {
+          id: 1,
+          title: "React Hooks Deep Dive",
+          content: "Master the power of React Hooks with real-world examples.",
+        },
+        {
+          id: 2,
+          title: "CSS Grid vs Flexbox",
+          content:
+            "Understand the key differences and when to use each layout.",
+        },
+      ];
 
   return (
     <div
-      className={`min-h-screen w-full ${
+      className={`min-h-screen w-[calc(100vw-660px)] ${
         darkMode ? "bg-gray-900 text-gray-100" : "bg-gray-100 text-gray-900"
-      } py-8 px-4 sm:px-8`}>
-      <div className="space-y-6 ">
+      }`}>
+      <div className="w-full">
         {posts.map((post) => (
-          <Post key={post.id} post={post} />
+          <React.Fragment key={post.id}>
+            <Post
+              post={post}
+              isWishlist={isWishlist}
+              openPreview={setPreviewPost}
+            />
+            <hr
+              className={`border-t my-1 w-full border-solid ${
+                darkMode ? "border-gray-700" : "border-gray-200"
+              }`}
+            />
+          </React.Fragment>
         ))}
       </div>
     </div>

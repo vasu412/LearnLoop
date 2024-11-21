@@ -58,18 +58,6 @@ const NewsFeed = ({ filter }) => {
     fetchNews();
   }, [debouncedFilter, page]);
 
-  const handleReaction = (postTitle) => {
-    setLiked((prev) => {
-      const newLiked = new Set(prev);
-      if (newLiked.has(postTitle)) {
-        newLiked.delete(postTitle);
-      } else {
-        newLiked.add(postTitle);
-      }
-      return newLiked;
-    });
-  };
-
   const handleScroll = () => {
     if (
       !loading &&

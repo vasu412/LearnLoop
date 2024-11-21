@@ -82,7 +82,7 @@ const WishlistPopup = ({ darkMode, setShowPopup }) => {
               {keywords.map((keyword, index) => (
                 <div
                   key={index}
-                  className={`flex items-center px-3 py-1 rounded-full ${
+                  className={`flex items-center px-3 py-1 rounded-md ${
                     darkMode
                       ? "bg-blue-600 text-white"
                       : "bg-blue-100 text-blue-600"

@@ -5,14 +5,13 @@ import "./index.css";
 import LearnLoopAuth from "./Pages/Auth";
 import NewsPage from "./Pages/News";
 import PostForm from "./Components/PostForm";
-import TeachingResources from "./Pages/TeachingResources";
 import CalendarEvents from "./Pages/EventPage";
-import PostDetail from "./Components/PostDetail";
 import FeatureWishlist from "./Pages/FeatureWishlist";
 import App from "./Pages/App";
 import LessonPlans from "./Pages/LessonPlans";
 import Websites from "./Pages/Websites";
 import Coursebooks from "./Pages/CourseBooks";
+import PostPreview from "./Components/PreviewPost";
 
 const router = createBrowserRouter([
   {
@@ -50,6 +49,10 @@ const router = createBrowserRouter([
       {
         path: "/home/wishlist",
         element: <FeatureWishlist />,
+      },
+      {
+        path: "/home/postpreview/:id",
+        element: <PostPreview />,
       },
     ],
   },

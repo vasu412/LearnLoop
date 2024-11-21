@@ -2,26 +2,27 @@ import React, { useContext, useState } from "react";
 import SharePost from "./SharePost";
 import context from "../Context/context";
 import PostsPage from "./Post";
+import { getAuth } from "firebase/auth";
 
 const PostForm = () => {
   const [showPopup, setShowPopup] = useState(false);
   const { darkMode } = useContext(context);
-
+  const { currentUser } = getAuth();
   return (
     <div
-      className={`w-[calc(75vw-275px)] h-[90.6vh] overflow-scroll flex flex-col items-center p-6 border-0 border-solid border-r-2 ${
+      className={`w-[calc(100vw-275px)] h-[90.6vh] overflow-y-scroll overflow-x-hidden flex flex-col p-6  ${
         darkMode ? "border-gray-700 bg-gray-900" : "border-gray-200 bg-gray-100"
       }`}>
       {/* User's Profile Image & Placeholder */}
       <div
         className={`w-full sm:w-[500px] h-fit px-10 py-5 rounded-sm ${
-          darkMode ? "bg-gray-800" : "bg-white"
+          darkMode ? "bg-gray-800" : "bg-gray-200"
         }`}
-        style={{ width: "730px" }}>
+        style={{ width: "1100px" }}>
         <div className="flex items-center ">
           {/* User Profile Image */}
           <img
-            src="https://randomuser.me/api/portraits/men/32.jpg" // Use a sample image or the user's image
+            src={currentUser.photoURL} // Use a sample image or the user's image
             alt="User"
             className="w-12 h-12 mr-3 rounded-md object-cover"
           />

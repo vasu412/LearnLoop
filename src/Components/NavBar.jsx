@@ -1,8 +1,11 @@
+import { getAuth } from "firebase/auth";
 import React from "react";
 import { FaMoon, FaSearch, FaSun, FaUserCircle } from "react-icons/fa";
 import { useSelector } from "react-redux";
 
 const NavBar = ({ filter, setFilter, darkMode, setDarkMode }) => {
+  const auth = getAuth();
+  console.log(auth.currentUser.photoURL);
   // Toggle Dark/Light mode
   const toggleDarkMode = () => {
     setDarkMode(!darkMode);
@@ -62,7 +65,12 @@ const NavBar = ({ filter, setFilter, darkMode, setDarkMode }) => {
         </button>
 
         {/* Profile Icon */}
-        <FaUserCircle size={30} className="text-gray-500 hover:text-gray-300" />
+        {auth?.currentUser?.photoURL && (
+          <img
+            src={auth?.currentUser?.photoURL}
+            className="h-[30px] w-[30px] rounded-full"
+          />
+        )}
       </div>
     </nav>
   );
