@@ -9,7 +9,7 @@ const Home = () => {
   const { darkMode, setDarkMode } = useContext(context);
   return (
     <div
-      className={`font-flux ${
+      className={`font-flux  ${
         darkMode ? "bg-gray-900 text-white" : "bg-gray-100 text-gray-900"
       }`}>
       {/* Top Navigation Bar */}
@@ -21,7 +21,7 @@ const Home = () => {
       />
 
       {/* Main Layout */}
-      <div className="flex w-full">
+      <div className="flex w-full h-[91.4vh]">
         {/* Sidebar (Left Side for Categories) */}
         <LeftNavBar darkMode={darkMode} />
 

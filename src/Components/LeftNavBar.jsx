@@ -10,7 +10,6 @@ import {
   FaLink,
   FaRocket,
 } from "react-icons/fa";
-import { BsChatSquareText } from "react-icons/bs";
 import { Link, useLocation } from "react-router-dom";
 
 const LeftNavBar = ({ darkMode }) => {
@@ -25,7 +24,7 @@ const LeftNavBar = ({ darkMode }) => {
   const { pathname } = useLocation();
   return (
     <div
-      className={`w-[275px] h-[91.4vh] p-4 border-0 border-x border-solid space-y-8 ${
+      className={`w-[275px] h-[91.3vh] p-4 border-0 border-x border-solid space-y-8 ${
         darkMode
           ? "bg-gray-800 text-white border-gray-700"
           : "bg-gray-100 text-gray-900 border-gray-200"

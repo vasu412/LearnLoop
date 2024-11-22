@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { FaMoon, FaRegBookmark, FaSearch, FaSun } from "react-icons/fa";
 import { IoClose } from "react-icons/io5";
 import { useDispatch, useSelector } from "react-redux";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { update } from "../Context/slice";
 import { doc, getDoc, getFirestore } from "firebase/firestore";
 
@@ -14,6 +14,7 @@ const NavBar = ({ darkMode, setDarkMode }) => {
   const dispatch = useDispatch();
   const db = getFirestore();
   const { pathname } = useLocation();
+  const navigate = useNavigate();
   // useRef to remember in which page user used inputbox
   const path = useRef(null);
   const value = useRef(null);
@@ -99,7 +100,9 @@ const NavBar = ({ darkMode, setDarkMode }) => {
 
       <div className="flex items-center space-x-3">
         {/* BookMark Icon */}
-        <button className="p-2 rounded-full border border-gray-300  transition duration-200">
+        <button
+          className="p-2 rounded-full border border-gray-300  transition duration-200"
+          onClick={() => navigate("/home/bookmarks")}>
           <FaRegBookmark />
         </button>
         {/* Dark Mode Toggle */}

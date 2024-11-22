@@ -16,6 +16,7 @@ import TutorChatRoom from "./Pages/TutorChatRoom";
 import TeachingQuestions from "./Pages/TeachingQuestions";
 import OnboardingPage from "./Pages/OnboardingPage";
 import UserSettings from "./Pages/UserSettings";
+import Bookmarks from "./Components/Bookmark";
 
 const router = createBrowserRouter([
   {
@@ -73,6 +74,10 @@ const router = createBrowserRouter([
       {
         path: "/home/usersettings",
         element: <UserSettings />,
+      },
+      {
+        path: "/home/bookmarks",
+        element: <Bookmarks />,
       },
     ],
   },

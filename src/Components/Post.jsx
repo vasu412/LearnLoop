@@ -122,9 +122,7 @@ const Post = ({ post, isWishlist, isQuestion }) => {
                   ? "bg-blue-700 text-gray-100"
                   : "bg-blue-500 text-gray-50"
               }`}>
-              {currentUser?.email === "learnloop@gmail.in"
-                ? "ADMIN"
-                : "NEW MEMBER"}
+              {post?.profile === "/avatars/ll.png" ? "ADMIN" : "NEW MEMBER"}
             </div>
           </div>
         </div>

@@ -45,7 +45,7 @@ const PostPreview = () => {
   } else {
     timeAgo = `${Math.floor(timeDiff / 86400)} days ago`;
   }
-
+  console.log(timeAgo);
   useEffect(() => {
     const fetchPost = async () => {
       try {
