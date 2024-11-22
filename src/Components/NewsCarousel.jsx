@@ -4,12 +4,13 @@ import { Navigation, Pagination, Autoplay } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
+import { articles } from "../Data/newsCarousalData";
 
 import "../index.css";
 import { NewsCarouselShimmer } from "./Shimmer";
 
 const NewsCarousel = ({ apiKey, darkMode }) => {
-  const [articles, setArticles] = useState(null);
+  const [article, setArticle] = useState(articles);
 
   useEffect(() => {
     const fetchNews = async () => {
@@ -19,13 +20,13 @@ const NewsCarousel = ({ apiKey, darkMode }) => {
         );
         const data = await response.json();
         console.log(data);
-        setArticles(data);
+        setArticle(data);
       } catch (error) {
         console.error("Error fetching news:", error);
       }
     };
 
-    fetchNews();
+    // fetchNews();
   }, [apiKey]);
 
   return (
@@ -47,10 +48,10 @@ const NewsCarousel = ({ apiKey, darkMode }) => {
           1024: { slidesPerView: 3 },
         }}
         className="news-carousel">
-        {!articles ? (
+        {!article ? (
           <NewsCarouselShimmer />
         ) : (
-          articles?.articles.map(
+          article?.articles.map(
             (article, index) =>
               article?.urlToImage && (
                 <SwiperSlide key={index}>

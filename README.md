@@ -222,14 +222,6 @@ Throughout the development of LearnLoop, our team encountered various challenges
 
 ---
 
-## 10. Dashboard
-
-![Screenshot](./screenshots/s10.png)
-
-### Description
-
-<i>Provides a personalized overview, showcasing user progress, goals, and tailored recommendations.</i>
-
 ## LEARNINGS
 
 ### 1. Understanding User Needs
