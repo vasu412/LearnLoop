@@ -3,8 +3,7 @@ import { FaArrowUp, FaArrowDown, FaCommentDots, FaShare } from "react-icons/fa";
 import { useParams } from "react-router-dom";
 import context from "../Context/context";
 import Comment from "../Components/Comment";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
-import { collection, doc, getDoc, getFirestore } from "firebase/firestore";
+import { doc, getDoc, getFirestore } from "firebase/firestore";
 
 const PostPreview = () => {
   const { id } = useParams();
@@ -14,10 +13,6 @@ const PostPreview = () => {
   const [post, setPost] = useState([]);
   const [votes, setVotes] = useState(null);
   const [voteCount, setVoteCount] = useState(0);
-  const [userProfile, setUserProfile] = useState("");
-
-  const { currentUser } = getAuth();
-  const auth = getAuth();
   const db = getFirestore();
 
   const handleAddComment = () => {
@@ -76,20 +71,6 @@ const PostPreview = () => {
     setVoteCount(post?.votes);
   }, []);
 
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (user) {
-        const userProfileRef = doc(db, "users", user.uid);
-        getDoc(userProfileRef).then((userProfileSnapshot) => {
-          if (userProfileSnapshot.exists()) {
-            setUserProfile(userProfileSnapshot.data().profile);
-          }
-        });
-      }
-    });
-    return unsubscribe;
-  }, []);
-
   return (
     <div
       className={` overflow-scroll h-[90.6vh] ${
@@ -104,7 +85,7 @@ const PostPreview = () => {
           {/* Header */}
           <div className="flex items-center space-x-4 mb-4">
             <img
-              src={userProfile}
+              src={post?.profile}
               alt="User avatar"
               className="w-10 h-10 rounded-full"
             />
@@ -129,11 +110,11 @@ const PostPreview = () => {
             }`}>
             {post?.postContent}
           </p>
-          {currentUser?.photoURL && (
-            <div className="relative w-full max-h-[450px] bg-gray-300 rounded-md overflow-hidden">
+          {post?.file && post?.file.length > 0 && (
+            <div className="relative w-full my-2 max-h-[450px] bg-gray-300 rounded-md overflow-hidden">
               {/* Blurred background */}
               <img
-                src={currentUser?.photoURL}
+                src={post?.file[0]}
                 alt=""
                 className="absolute inset-0 w-full h-full object-cover blur-md"
                 aria-hidden="true"
@@ -141,7 +122,7 @@ const PostPreview = () => {
 
               {/* Centered image */}
               <img
-                src={currentUser?.photoURL}
+                src={post?.file[0]}
                 alt="News Thumbnail"
                 className="relative mx-auto h-full object-contain z-10"
               />

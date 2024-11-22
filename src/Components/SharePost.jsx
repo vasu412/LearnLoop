@@ -21,8 +21,6 @@ const SharePost = ({ setShowPopup }) => {
 
   const handlePostSubmit = async (e) => {
     e.preventDefault();
-    const auth = getAuth();
-    const db = getFirestore(app);
 
     if (postContent.trim() || files.length) {
       handleSubmit(e, "", postContent, [], "posts", files);

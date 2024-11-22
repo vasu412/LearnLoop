@@ -65,7 +65,6 @@ const LearnLoopAuth = () => {
   ];
 
   const randomAvatar = avatars[Math.floor(Math.random() * 10)];
-  console.log(randomAvatar);
   // Handle Form Input Changes
   const handleChange = (e) => {
     const { name, value } = e.target;
