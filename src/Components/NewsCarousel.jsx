@@ -9,7 +9,7 @@ import "../index.css";
 import { NewsCarouselShimmer } from "./Shimmer";
 
 const NewsCarousel = ({ apiKey, darkMode }) => {
-  const [articles, setArticles] = useState([]);
+  const [articles, setArticles] = useState(null);
 
   useEffect(() => {
     const fetchNews = async () => {
@@ -47,7 +47,7 @@ const NewsCarousel = ({ apiKey, darkMode }) => {
           1024: { slidesPerView: 3 },
         }}
         className="news-carousel">
-        {articles?.articles.length === 0 ? (
+        {!articles ? (
           <NewsCarouselShimmer />
         ) : (
           articles?.articles.map(
