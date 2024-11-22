@@ -41,7 +41,8 @@ const NewsFeed = () => {
         const newArticles =
           page === 1
             ? data.items // Replace articles on the first page (for filter change)
-            : data.items.filter(
+            : Array.isArray(data) &&
+              data.items.filter(
                 (item) =>
                   !news.some((newsItem) => newsItem.title === item.title)
               ); // Prevent duplicates for pagination
