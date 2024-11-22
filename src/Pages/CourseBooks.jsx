@@ -60,7 +60,7 @@ const Coursebooks = () => {
         className={`${
           darkMode ? "bg-pink-700" : "bg-pink-500"
         } text-gray-50 p-6 px-16 rounded-sm shadow-lg my-6`}>
-        <h1 className="text-3xl font-bold">Coursebooks</h1>
+        <h1 className="text-3xl font-bold">Coursebooks 📚</h1>
         <p className="text-lg mt-2">
           Discover a wide range of coursebooks designed to guide students
           through key subjects, enhancing their understanding and academic

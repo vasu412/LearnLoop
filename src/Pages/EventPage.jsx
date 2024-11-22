@@ -31,7 +31,7 @@ const EventPage = () => {
         className={`${
           darkMode ? "bg-blue-950" : "bg-blue-900"
         } text-gray-50 p-6 px-16 rounded-sm shadow-lg mb-6`}>
-        <h1 className="text-3xl font-bold">Upcoming Educational Events</h1>
+        <h1 className="text-3xl font-bold">Upcoming Educational Events 📅</h1>
         <p className="text-lg mt-2">
           Explore a variety of upcoming educational events happening worldwide,
           ranging from workshops and webinars to conferences and courses.

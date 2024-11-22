@@ -66,7 +66,7 @@ const LessonPlans = () => {
         className={`${
           darkMode ? "bg-blue-700" : "bg-blue-500"
         } text-gray-50 p-6 px-16 rounded-sm shadow-lg mb-6`}>
-        <h1 className="text-3xl font-bold">Lesson Plans & Activities</h1>
+        <h1 className="text-3xl font-bold">Lesson Plans & Activities ✍️</h1>
         <p className="text-lg mt-2">
           Explore lesson plans and activities for different subjects and grade
           levels to enhance learning experiences.

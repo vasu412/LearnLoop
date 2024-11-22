@@ -37,7 +37,7 @@ const Websites = () => {
         className={`p-6 px-16 rounded-sm shadow-lg my-6 ${
           darkMode ? "bg-purple-700" : "bg-purple-500"
         }`}>
-        <h1 className="text-3xl font-bold ">Websites</h1>
+        <h1 className="text-3xl font-bold ">Websites 🌐</h1>
         <p className="text-lg mt-2">
           Explore educational websites offering interactive tools, resources,
           and content for diverse learning needs and styles.

@@ -1,15 +1,18 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { FaCommentDots, FaArrowUp, FaArrowDown } from "react-icons/fa";
 import context from "../Context/context";
 import { getAuth } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
+import { doc, getDoc, getFirestore, setDoc } from "firebase/firestore";
 
-const Post = ({ post, isWishlist }) => {
+const Post = ({ post, isWishlist, isQuestion }) => {
   const { darkMode } = useContext(context);
   const { currentUser } = getAuth();
-  const [votes, setVotes] = useState(0);
+  const [votes, setVotes] = useState(null);
+  const [voteCount, setVoteCount] = useState(0);
 
   const navigate = useNavigate();
+  const db = getFirestore();
 
   const createdAt = new Date(post?.createdAt);
   const now = new Date();
@@ -25,6 +28,47 @@ const Post = ({ post, isWishlist }) => {
   } else {
     timeAgo = `${Math.floor(timeDiff / 86400)} days ago`;
   }
+
+  useEffect(() => {
+    votes
+      ? setVoteCount((prev) => prev + 1)
+      : !votes && voteCount !== 0
+      ? setVoteCount((prev) => prev - 1)
+      : voteCount;
+  }, [votes]);
+
+  useEffect(() => {
+    if (!post?.id) return; // Avoid running if post or id is undefined
+
+    const setFirebaseVotes = async () => {
+      try {
+        const postsCollectionRef = isQuestion
+          ? doc(db, "questionPosts", post.id)
+          : isWishlist
+          ? doc(db, "wishlistPosts", post.id)
+          : doc(db, "posts", post.id);
+
+        const querySnapshot = await getDoc(postsCollectionRef);
+
+        if (querySnapshot.exists()) {
+          const postData = {
+            ...querySnapshot.data(),
+            id: querySnapshot.id,
+            votes: voteCount,
+          };
+          console.log(postData);
+          // Add the post to Firestore
+          await setDoc(postsCollectionRef, postData);
+        } else {
+          console.error("Post not found in Firestore");
+        }
+      } catch (error) {
+        console.error("Error updating document:", error.message);
+      }
+    };
+
+    voteCount !== 0 && setFirebaseVotes();
+  }, [voteCount, post?.id]);
 
   return (
     <div
@@ -128,14 +172,14 @@ const Post = ({ post, isWishlist }) => {
       <div className="flex items-center space-x-4 mt-4">
         <div className="flex items-center gap-2 text-gray-400">
           <button
-            onClick={() => votes >= 0 && setVotes(votes + 1)}
-            className="hover:text-green-400">
+            onClick={() => setVotes((prev) => (prev === true ? null : true))}
+            className={`${votes === true && "text-green-400"}`}>
             <FaArrowUp />
           </button>
-          <span>{votes}</span>
+          <span>{post?.votes}</span>
           <button
-            onClick={() => votes > 0 && setVotes(votes - 1)}
-            className="hover:text-red-400">
+            onClick={() => setVotes((prev) => (prev === false ? null : false))}
+            className={`${votes === false && voteCount > 0 && "text-red-400"}`}>
             <FaArrowDown />
           </button>
         </div>

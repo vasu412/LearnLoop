@@ -8,6 +8,7 @@ import {
   FaCog,
   FaBook,
   FaLink,
+  FaRocket,
 } from "react-icons/fa";
 import { BsChatSquareText } from "react-icons/bs";
 import { Link, useLocation } from "react-router-dom";
@@ -109,6 +110,18 @@ const LeftNavBar = ({ darkMode }) => {
           </li>
         </Link>
 
+        <Link to={"/home/questionsandtips"}>
+          <li
+            className={`flex items-center space-x-3 ${
+              pathname === "/home/questionsandtips" && colorOnClick
+            } ${commonHoverClasses}`}>
+            <FaChalkboardTeacher className="text-lg" />
+            <span className={commonTextClasses}>
+              Teaching Questions and Tips
+            </span>
+          </li>
+        </Link>
+
         <hr
           className={`border-t border-solid ${
             darkMode ? "border-gray-700" : "border-gray-300"
@@ -159,13 +172,13 @@ const LeftNavBar = ({ darkMode }) => {
           }`}
         />
 
-        <Link to={"/home/resources/community"}>
+        <Link to={"/home/onboardingPage"}>
           <li
             className={`flex items-center space-x-3 ${
-              pathname === "/home/resources/community" && colorOnClick
+              pathname === "/home/onboardingPage" && colorOnClick
             } ${commonHoverClasses}`}>
-            <FaChalkboardTeacher className="text-xl" />
-            <span className={commonTextClasses}>Community Features</span>
+            <FaRocket className="text-xl" />
+            <span className={commonTextClasses}>Getting Started</span>
           </li>
         </Link>
         {/* Settings */}

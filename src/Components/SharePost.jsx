@@ -11,6 +11,7 @@ import {
 import app from "../Firebase/auth";
 import context from "../Context/context"; // Assuming you have context for darkMode
 import { getAuth } from "firebase/auth";
+import handleSubmit from "../commonFunctions/handleSubmit";
 
 const SharePost = ({ setShowPopup }) => {
   const [postContent, setPostContent] = useState("");
@@ -18,46 +19,18 @@ const SharePost = ({ setShowPopup }) => {
   const [mediaPreview, setMediaPreview] = useState(null);
   const { darkMode } = useContext(context); // Using darkMode from context
 
-  const handleSubmit = async (e) => {
+  const handlePostSubmit = async (e) => {
     e.preventDefault();
     const auth = getAuth();
     const db = getFirestore(app);
 
     if (postContent.trim() || files.length) {
-      try {
-        // Get the current user and their profile information
-        const userProfileRef = doc(db, "users", auth.currentUser.uid);
-        const userProfileSnapshot = await getDoc(userProfileRef);
-
-        if (!userProfileSnapshot.exists()) {
-          console.error("User profile does not exist.");
-          return;
-        }
-
-        const userProfileData = userProfileSnapshot.data();
-
-        // Create a reference for the new post
-        const postsCollectionRef = collection(db, "posts");
-        const newPostRef = doc(postsCollectionRef); // Generate a unique document ID
-
-        // Add the post to Firestore
-        await setDoc(newPostRef, {
-          username: userProfileData.username || "Anonymous", // Fallback if username is missing
-          files: files.length > 0 ? files.map((file) => file.name) : [], // Handle files array
-          postContent: postContent.trim(),
-          createdAt: new Date().toISOString(),
-        });
-
-        console.log("Document written with ID: ", newPostRef.id);
-
-        // Clear inputs and close popup
-        setPostContent("");
-        setFiles([]);
-        setMediaPreview(null);
-        setShowPopup(false);
-      } catch (error) {
-        console.error("Error adding document:", error.message);
-      }
+      handleSubmit(e, "", postContent, [], "posts", files);
+      // Clear inputs and close popup
+      setPostContent("");
+      setFiles([]);
+      setMediaPreview(null);
+      setShowPopup(false);
     } else {
       console.warn("Post content or files must be provided.");
     }
@@ -100,7 +73,7 @@ const SharePost = ({ setShowPopup }) => {
             onClick={() => setShowPopup(false)}
           />
         </div>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handlePostSubmit}>
           <textarea
             value={postContent}
             onChange={(e) => setPostContent(e.target.value)}

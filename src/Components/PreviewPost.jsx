@@ -9,15 +9,14 @@ import { collection, doc, getDoc, getFirestore } from "firebase/firestore";
 const PostPreview = () => {
   const { id } = useParams();
   const { darkMode } = useContext(context);
-  const [votes, setVotes] = useState(0);
   const [comments, setComments] = useState([]);
   const [commentInput, setCommentInput] = useState("");
   const [post, setPost] = useState([]);
+  const [votes, setVotes] = useState(null);
+  const [voteCount, setVoteCount] = useState(0);
 
   const { currentUser } = getAuth();
   const db = getFirestore();
-  const handleUpvote = () => votes >= 0 && setVotes(votes + 1);
-  const handleDownvote = () => votes > 0 && setVotes(votes - 1);
 
   const handleAddComment = () => {
     if (commentInput.trim()) {
@@ -25,6 +24,14 @@ const PostPreview = () => {
       setCommentInput("");
     }
   };
+
+  useEffect(() => {
+    votes
+      ? setVoteCount((prev) => prev + 1)
+      : !votes && voteCount !== 0
+      ? setVoteCount((prev) => prev - 1)
+      : voteCount;
+  }, [votes]);
 
   //handling time
   const createdAt = new Date(post?.createdAt);
@@ -64,6 +71,7 @@ const PostPreview = () => {
       }
     };
     fetchPost();
+    setVoteCount(post?.votes);
   }, []);
 
   return (
@@ -126,16 +134,22 @@ const PostPreview = () => {
 
           {/* Engagement Bar */}
           <div className="flex items-center justify-between text-gray-600 dark:text-gray-400">
-            <div className="flex items-center space-x-4">
+            <div className="flex items-center gap-2 text-gray-400">
               <button
-                onClick={handleUpvote}
-                className="flex items-center space-x-1 hover:text-green-500">
+                onClick={() =>
+                  setVotes((prev) => (prev === true ? null : true))
+                }
+                className={`${votes === true && "text-green-400"}`}>
                 <FaArrowUp />
-                <span>{votes}</span>
               </button>
+              <span>{voteCount}</span>
               <button
-                onClick={handleDownvote}
-                className="flex items-center space-x-1 hover:text-red-500">
+                onClick={() =>
+                  setVotes((prev) => (prev === false ? null : false))
+                }
+                className={`${
+                  votes === false && voteCount > 0 && "text-red-400"
+                }`}>
                 <FaArrowDown />
               </button>
             </div>

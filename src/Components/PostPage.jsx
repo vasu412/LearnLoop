@@ -4,14 +4,16 @@ import React, { useContext, useEffect, useState } from "react";
 import Post from "./Post";
 import context from "../Context/context";
 
-const PostsPage = ({ isWishlist = false }) => {
+const PostsPage = ({ isWishlist = false, isQuestion }) => {
   const { darkMode } = useContext(context);
   const [posts, setPosts] = useState([]);
   const db = getFirestore(app);
 
   useEffect(() => {
     const fetchPosts = async () => {
-      const postsCollectionRef = isWishlist
+      const postsCollectionRef = isQuestion
+        ? collection(db, "questionPosts")
+        : isWishlist
         ? collection(db, "wishlistPosts")
         : collection(db, "posts");
       const querySnapshot = await getDocs(postsCollectionRef);

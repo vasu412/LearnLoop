@@ -1,26 +1,28 @@
 import React, { useContext, useState } from "react";
 import context from "../Context/context";
-import WishlistPopup from "../Components/WishlistPopup";
+import TeachingPopup from "../Components/TeachingPopup";
 import PostsPage from "../Components/PostPage";
 
-// Main Component for Feature Wishlist Page
-const FeatureWishlist = () => {
+// Main Component for Teaching Questions and Tips Page
+const TeachingQuestions = () => {
   const [showPopup, setShowPopup] = useState(false);
   const { darkMode } = useContext(context);
 
   return (
     <div className="flex flex-col h-[90.6vh] overflow-scroll">
       <div
-        className={` text-gray-50 p-6 px-16 bg-black rounded-sm shadow-lg m-6`}>
-        <h1 className="text-3xl font-bold">Feature Wishlist 🌟</h1>
+        className={` text-gray-50 p-6 px-16 ${
+          darkMode ? "bg-blue-900" : "bg-blue-500"
+        } rounded-sm shadow-lg m-6`}>
+        <h1 className="text-3xl font-bold">Teaching Questions and Tips 💡</h1>
         <p className="text-lg mt-2">
-          Explore and share ideas for features you’d love to see implemented in
-          the future!
+          Share and explore tips, tricks, and questions to enhance your teaching
+          journey!
         </p>
       </div>
 
       <div
-        className={`w-[calc(100vw-275px)]  p-6  ${
+        className={`w-[calc(100vw-275px)] p-6 ${
           darkMode
             ? "border-gray-700 bg-gray-900"
             : "border-gray-200 bg-gray-100"
@@ -31,10 +33,10 @@ const FeatureWishlist = () => {
             darkMode ? "bg-gray-800" : "bg-gray-200"
           }`}
           style={{ width: "1100px" }}>
-          <div className="flex items-center ">
+          <div className="flex items-center">
             {/* User Profile Image */}
             <img
-              src="https://randomuser.me/api/portraits/men/32.jpg" // Use a sample image or the user's image
+              src="https://randomuser.me/api/portraits/women/50.jpg" // Use a sample image or the user's image
               alt="User"
               className="w-12 h-12 mr-3 rounded-md object-cover"
             />
@@ -48,13 +50,13 @@ const FeatureWishlist = () => {
               } rounded-md border ${
                 darkMode ? "border-gray-600" : "border-gray-300"
               }`}>
-              <span>Share your Thoughts!</span>
+              <span>Ask a Question or Share a Tip!</span>
             </div>
           </div>
 
           {/* Popup for Writing Post */}
           {showPopup && (
-            <WishlistPopup setShowPopup={setShowPopup} darkMode={darkMode} />
+            <TeachingPopup setShowPopup={setShowPopup} darkMode={darkMode} />
           )}
         </div>
       </div>
@@ -64,24 +66,10 @@ const FeatureWishlist = () => {
         }`}
       />
       <div className="p-3">
-        <PostsPage isWishlist={true} />
+        <PostsPage isQuestion={true} />
       </div>
     </div>
-    // {/* List of Features */}
-    //   {features.length === 0 ? (
-    //     <p>No features submitted yet. Be the first to share your idea!</p>
-    //   ) : (
-    //     features.map((feature) => (
-    //       <FeatureItem
-    //         key={feature.id}
-    //         feature={feature}
-    //         onVote={handleVote}
-    //         onComment={handleComment}
-    //       />
-    //     ))
-    //   )}
-    // </div>
   );
 };
 
-export default FeatureWishlist;
+export default TeachingQuestions;
