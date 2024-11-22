@@ -38,7 +38,16 @@ const NewsFeed = () => {
       const data = await response.json();
 
       if (data.items) {
-        setNews(data.items);
+        const newArticles =
+          page === 1
+            ? data.items // Replace articles on the first page (for filter change)
+            : data.items.filter(
+                (item) =>
+                  !news.some((newsItem) => newsItem.title === item.title)
+              ); // Prevent duplicates for pagination
+        setNews((prev) =>
+          page === 1 ? newArticles : [...prev, ...newArticles]
+        );
       }
     } catch (error) {
       console.error("Error fetching news:", error);
