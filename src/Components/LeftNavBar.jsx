@@ -100,7 +100,7 @@ const LeftNavBar = ({ darkMode }) => {
             CONNECT
           </span>
         </li>
-        <Link to={"/home/tutorChatRoom"}>
+        {/* <Link to={"/home/tutorChatRoom"}>
           <li
             className={`flex items-center space-x-3 ${
               pathname === "/home/tutorChatRoom" && colorOnClick
@@ -108,7 +108,7 @@ const LeftNavBar = ({ darkMode }) => {
             <BsChatSquareText className="text-lg" />
             <span className={commonTextClasses}>Tutor Chat Room</span>
           </li>
-        </Link>
+        </Link> */}
 
         <Link to={"/home/questionsandtips"}>
           <li
@@ -182,13 +182,13 @@ const LeftNavBar = ({ darkMode }) => {
           </li>
         </Link>
         {/* Settings */}
-        <Link to={"/home/settings"}>
+        <Link to={"/home/usersettings"}>
           <li
             className={`flex items-center space-x-3 ${
               pathname === "/home/settings" && colorOnClick
             } ${commonHoverClasses}`}>
             <FaCog className="text-xl" />
-            <span className={commonTextClasses}>Settings & Documentation</span>
+            <span className={commonTextClasses}>Settings </span>
           </li>
         </Link>
       </ul>

@@ -15,6 +15,7 @@ import PostPreview from "./Components/PreviewPost";
 import TutorChatRoom from "./Pages/TutorChatRoom";
 import TeachingQuestions from "./Pages/TeachingQuestions";
 import OnboardingPage from "./Pages/OnboardingPage";
+import UserSettings from "./Pages/UserSettings";
 
 const router = createBrowserRouter([
   {
@@ -68,6 +69,10 @@ const router = createBrowserRouter([
       {
         path: "/home/onboardingPage",
         element: <OnboardingPage />,
+      },
+      {
+        path: "/home/usersettings",
+        element: <UserSettings />,
       },
     ],
   },
