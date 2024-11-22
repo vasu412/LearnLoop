@@ -11,8 +11,6 @@ import {
 } from "react-icons/fa";
 import { BsChatSquareText } from "react-icons/bs";
 import { Link, useLocation } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { update } from "../Context/slice";
 
 const LeftNavBar = ({ darkMode }) => {
   const commonTextClasses = `text-md font-medium ${
@@ -24,17 +22,16 @@ const LeftNavBar = ({ darkMode }) => {
 
   const colorOnClick = `${darkMode ? "bg-gray-700" : "bg-gray-200"}`;
   const { pathname } = useLocation();
-  const dispatch = useDispatch();
   return (
     <div
-      className={`w-[275px] h-[90.6vh] p-4 border-0 border-x border-solid space-y-8 ${
+      className={`w-[275px] h-[91.4vh] p-4 border-0 border-x border-solid space-y-8 ${
         darkMode
           ? "bg-gray-800 text-white border-gray-700"
           : "bg-gray-100 text-gray-900 border-gray-200"
       }`}>
       <ul>
         {/* Homepage */}
-        <Link to={"/home/"} onClick={() => dispatch(update(0))}>
+        <Link to={"/home/"}>
           <li
             className={`flex items-center space-x-3 ${
               pathname === "/home/" && colorOnClick

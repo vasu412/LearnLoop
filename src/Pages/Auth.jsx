@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import axios from "axios"; // For API calls
 import { motion } from "framer-motion";
 import { FaGoogle, FaApple } from "react-icons/fa";
 import {
@@ -7,8 +6,11 @@ import {
   signInWithPopup,
   GoogleAuthProvider,
   OAuthProvider,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
 } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
+import { doc, getFirestore, setDoc } from "firebase/firestore";
 
 const LearnLoopAuth = () => {
   const [isLogin, setIsLogin] = useState(true);
@@ -20,6 +22,7 @@ const LearnLoopAuth = () => {
   });
 
   const auth = getAuth();
+  const db = getFirestore();
   const Navigate = useNavigate();
 
   const handleGoogleSignIn = async () => {
@@ -55,21 +58,45 @@ const LearnLoopAuth = () => {
   // Submit Email/Password Form
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const url = isLogin
-      ? "https://your-api.com/login"
-      : "https://your-api.com/register";
-    const payload = isLogin
-      ? { email: formData.email, password: formData.password }
-      : { ...formData, role };
+    const { email, password, username } = formData;
 
-    try {
-      const response = await axios.post(url, payload);
-      const { token } = response.data;
-      localStorage.setItem("token", token);
-      alert(`Successfully ${isLogin ? "logged in" : "registered"}!`);
-    } catch (error) {
-      console.error("Authentication error:", error);
-      alert("An error occurred. Please try again.");
+    if (isLogin) {
+      // Login existing user
+      try {
+        const userCredential = await signInWithEmailAndPassword(
+          auth,
+          email,
+          password
+        );
+        console.log("User logged in:", userCredential.user);
+
+        Navigate("/home");
+      } catch (error) {
+        console.error("Login Error:", error);
+        alert("Login failed. Check your email and password.");
+      }
+    } else {
+      // Register new user
+      try {
+        const userCredential = await createUserWithEmailAndPassword(
+          auth,
+          email,
+          password
+        );
+        const user = userCredential.user;
+        await setDoc(doc(db, "users", user.uid), {
+          username: username,
+          email: user.email,
+          role: role, // Example of other data
+        });
+        console.log("User registered:", user);
+        Navigate("/home");
+      } catch (error) {
+        console.error("Registration Error:", error);
+        alert(
+          "Registration failed. Ensure your email is valid and password is strong."
+        );
+      }
     }
   };
 

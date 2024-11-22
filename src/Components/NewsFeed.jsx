@@ -86,14 +86,13 @@ const NewsFeed = () => {
           <NewsShimmer />
         ) : (
           news.map((item, index) => (
-            <>
+            <React.Fragment key={index}>
               <hr
                 className={`border-t border-solid ${
                   darkMode ? "border-gray-700" : "border-gray-300"
                 }`}
               />
               <div
-                key={index}
                 className={`p-4 rounded-lg cursor-pointer space-y-4 ${
                   darkMode
                     ? "hover:bg-gray-900 border-gray-700 bg-slate-700"
@@ -133,7 +132,7 @@ const NewsFeed = () => {
                   </div>
                 )}
               </div>
-            </>
+            </React.Fragment>
           ))
         )}
         {loading && (

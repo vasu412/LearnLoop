@@ -1,11 +1,22 @@
+import {
+  collection,
+  doc,
+  getDoc,
+  getFirestore,
+  setDoc,
+} from "firebase/firestore";
 import React, { useState } from "react";
 import { FaWindowClose } from "react-icons/fa";
+import app from "../Firebase/auth";
+import { getAuth } from "firebase/auth";
 
 const WishlistPopup = ({ darkMode, setShowPopup }) => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [keywords, setKeywords] = useState([]);
   const [currentKeyword, setCurrentKeyword] = useState("");
+  const db = getFirestore(app);
+  const auth = getAuth();
 
   const handleAddKeyword = (e) => {
     if (e.key === "Enter" && currentKeyword.trim()) {
@@ -19,8 +30,30 @@ const WishlistPopup = ({ darkMode, setShowPopup }) => {
     setKeywords((prev) => prev.filter((_, i) => i !== index));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    const userProfileRef = doc(db, "users", auth.currentUser.uid);
+    const userProfileSnapshot = await getDoc(userProfileRef);
+
+    if (!userProfileSnapshot.exists()) {
+      console.error("User profile does not exist.");
+      return;
+    }
+
+    const userProfileData = userProfileSnapshot.data();
+
+    // Create a reference for the new post
+    const postsCollectionRef = collection(db, "wishlistPosts");
+    const newPostRef = doc(postsCollectionRef); // Generate a unique document ID
+
+    await setDoc(newPostRef, {
+      username: userProfileData.username || "Anonymous", // Fallback if username is missing
+      title: title,
+      postContent: description.trim(),
+      keywords: keywords,
+      createdAt: new Date().toISOString(),
+    });
+
     // Handle form submission logic
     console.log({ title, description, keywords });
     setShowPopup(false); // Close the popup

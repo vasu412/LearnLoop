@@ -3,9 +3,8 @@ import NewsFeed from "../Components/NewsFeed";
 import NewsCarousel from "../Components/NewsCarousel";
 import context from "../Context/context";
 
-const NewsPage = ({ filter }) => {
+const NewsPage = () => {
   const { darkMode } = useContext(context);
-  console.log(darkMode);
   return (
     <div
       className={`flex w-[calc(100vw-275px)] flex-col h-[90.6vh] overflow-scroll `}>
@@ -14,7 +13,7 @@ const NewsPage = ({ filter }) => {
         darkMode={darkMode}
       />
       <div className="flex">
-        <NewsFeed darkMode={darkMode} filter={filter} />
+        <NewsFeed darkMode={darkMode} />
         {/* Sidebar (Right Side ) */}
         <div
           className={`w-96  p-6 space-y-4  ${

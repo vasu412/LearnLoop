@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import SharePost from "./SharePost";
 import context from "../Context/context";
-import PostsPage from "./Post";
+import PostsPage from "./PostPage";
 import { getAuth } from "firebase/auth";
 
 const PostForm = () => {
@@ -21,9 +21,9 @@ const PostForm = () => {
         style={{ width: "1100px" }}>
         <div className="flex items-center ">
           {/* User Profile Image */}
-          {currentUser.photoURL && (
+          {currentUser?.photoURL && (
             <img
-              src={currentUser.photoURL} // Use a sample image or the user's image
+              src={currentUser?.photoURL} // Use a sample image or the user's image
               alt="User"
               className="w-12 h-12 mr-3 rounded-md object-cover"
             />

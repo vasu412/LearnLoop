@@ -1,8 +1,10 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { FaArrowUp, FaArrowDown, FaCommentDots, FaShare } from "react-icons/fa";
 import { useParams } from "react-router-dom";
 import context from "../Context/context";
 import Comment from "../Components/Comment";
+import { getAuth } from "firebase/auth";
+import { collection, doc, getDoc, getFirestore } from "firebase/firestore";
 
 const PostPreview = () => {
   const { id } = useParams();
@@ -10,31 +12,10 @@ const PostPreview = () => {
   const [votes, setVotes] = useState(0);
   const [comments, setComments] = useState([]);
   const [commentInput, setCommentInput] = useState("");
+  const [post, setPost] = useState([]);
 
-  const posts = [
-    {
-      id: 1,
-      title: "Feature A",
-      description:
-        "A detailed explanation of Feature A with all its benefits.A detailed explanation of Feature A with all its benefitsA detailed explanation of Feature A with all its benefitsA detailed explanation of Feature A with all its benefitsA detailed explanation of Feature A with all its benefitsA detailed explanation of Feature A with all its benefitsA detailed explanation of Feature A with all its benefitsA detailed explanation of Feature A with all its benefitsA detailed explanation of Feature A with all its benefitsA detailed explanation of Feature A with all its benefitsA detailed explanation of Feature A with all its benefitsA detailed explanation of Feature A with all its benefitsA detailed explanation of Feature A with all its benefitsA detailed explanation of Feature A with all its benefitsA detailed explanation of Feature A with all its benefitsA detailed explanation of Feature A with all its benefitsA detailed explanation of Feature A with all its benefitsA detailed explanation of Feature A with all its benefits",
-      keywords: ["UI", "Efficiency", "Accessibility"],
-      author: "JohnDoe",
-      avatar: "https://via.placeholder.com/50", // Replace with real user image
-      time: "2 hours ago",
-    },
-    {
-      id: 2,
-      title: "Feature B",
-      description: "A comprehensive overview of Feature B's functionality.",
-      keywords: ["Backend", "Performance", "Scalability"],
-      author: "JaneSmith",
-      avatar: "https://via.placeholder.com/50", // Replace with real user image
-      time: "1 day ago",
-    },
-  ];
-
-  const post = posts.find((p) => p.id === parseInt(id));
-
+  const { currentUser } = getAuth();
+  const db = getFirestore();
   const handleUpvote = () => votes >= 0 && setVotes(votes + 1);
   const handleDownvote = () => votes > 0 && setVotes(votes - 1);
 
@@ -44,6 +25,46 @@ const PostPreview = () => {
       setCommentInput("");
     }
   };
+
+  //handling time
+  const createdAt = new Date(post?.createdAt);
+  const now = new Date();
+  const timeDiff = Math.floor((now - createdAt) / 1000); // Time difference in seconds
+
+  let timeAgo = "";
+  if (timeDiff < 60) {
+    timeAgo = `${timeDiff} seconds ago`;
+  } else if (timeDiff < 3600) {
+    timeAgo = `${Math.floor(timeDiff / 60)} minutes ago`;
+  } else if (timeDiff < 86400) {
+    timeAgo = `${Math.floor(timeDiff / 3600)} hours ago`;
+  } else {
+    timeAgo = `${Math.floor(timeDiff / 86400)} days ago`;
+  }
+
+  useEffect(() => {
+    const fetchPost = async () => {
+      try {
+        const postCollectionRef = doc(db, "posts", id); // Reference to the document
+        const wishlistPostCollectionRef = doc(db, "wishlistPosts", id); // Reference to the document
+        const querySnapshot1 = await getDoc(postCollectionRef); // Fetch the document
+        const querySnapshot2 = await getDoc(wishlistPostCollectionRef); // Fetch the document
+
+        if (querySnapshot1.exists()) {
+          const post = { id: querySnapshot1.id, ...querySnapshot1.data() }; // Combine ID and document data
+          setPost(post);
+        } else if (querySnapshot2.exists()) {
+          const post = { id: querySnapshot2.id, ...querySnapshot2.data() };
+          setPost(post);
+        } else {
+          console.error("No such document exists!");
+        }
+      } catch (error) {
+        console.error("Error fetching document:", error.message);
+      }
+    };
+    fetchPost();
+  }, []);
 
   return (
     <div
@@ -59,28 +80,30 @@ const PostPreview = () => {
           {/* Header */}
           <div className="flex items-center space-x-4 mb-4">
             <img
-              src={post.avatar}
+              src={""}
               alt="User avatar"
               className="w-10 h-10 rounded-full"
             />
             <div>
               <p className="text-sm font-medium">
-                <span className="text-blue-500">{post.author}</span> •{" "}
-                <span>{post.time}</span>
+                <span className="text-blue-500">{post?.username}</span> •{" "}
+                <span>{timeAgo}</span>
               </p>
-              <p className="text-xs text-gray-500">
-                {post.keywords.join(", ")}
-              </p>
+              {post?.keywords && (
+                <p className="text-xs text-gray-500">
+                  {post?.keywords.join(", ")}
+                </p>
+              )}
             </div>
           </div>
 
           {/* Title and Description */}
-          <h2 className="text-3xl font-semibold mb-2">{post.title}</h2>
+          <h2 className="text-3xl font-semibold mb-2">{post?.title}</h2>
           <p
             className={`text-md mb-4 ${
               darkMode ? "text-gray-200" : "text-gray-700"
             }`}>
-            {post.description}
+            {post?.postContent}
           </p>
           {currentUser?.photoURL && (
             <div className="relative w-full max-h-[450px] bg-gray-300 rounded-md overflow-hidden">

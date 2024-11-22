@@ -19,7 +19,6 @@ const NavBar = ({ darkMode, setDarkMode }) => {
     setDarkMode(!darkMode);
   };
 
-  console.log(pathname);
   const handleFilterChange = (e) => {
     path.current = pathname;
     value.current = e.target.value;
@@ -42,7 +41,6 @@ const NavBar = ({ darkMode, setDarkMode }) => {
       : "";
 
   useEffect(() => {
-    console.log(num);
     if (path.current !== pathname || num === "remove") setInputValue("");
     else setInputValue(value.current);
   }, [pathname, num]);
@@ -58,7 +56,7 @@ const NavBar = ({ darkMode, setDarkMode }) => {
         </h1>
       </div>
 
-      {num !== 0 && num !== 3 && num !== 8 && placeholder !== "" && (
+      {placeholder !== "" && (
         <div className="relative">
           <input
             type="text"

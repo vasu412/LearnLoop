@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import context from "../Context/context";
 import WishlistPopup from "../Components/WishlistPopup";
-import PostPage from "../Components/Post";
+import PostsPage from "../Components/PostPage";
 
 // Main Component for Feature Wishlist Page
 const FeatureWishlist = () => {
@@ -64,7 +64,7 @@ const FeatureWishlist = () => {
         }`}
       />
       <div className="p-3">
-        <PostPage isWishlist={true} />
+        <PostsPage isWishlist={true} />
       </div>
     </div>
     // {/* List of Features */}
