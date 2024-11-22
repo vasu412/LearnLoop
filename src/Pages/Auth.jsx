@@ -8,6 +8,7 @@ import {
   OAuthProvider,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  TwitterAuthProvider,
 } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import { doc, getFirestore, setDoc } from "firebase/firestore";
@@ -37,8 +38,8 @@ const LearnLoopAuth = () => {
     }
   };
 
-  const handleAppleSignIn = async () => {
-    const provider = new OAuthProvider("apple.com");
+  const handleTwitterSignIn = async () => {
+    const provider = new TwitterAuthProvider();
     try {
       const result = await signInWithPopup(auth, provider);
       const user = result.user;
@@ -49,6 +50,22 @@ const LearnLoopAuth = () => {
     }
   };
 
+  const avatars = [
+    "/avatars/avatar1.png",
+    "/avatars/avatar2.png",
+    "/avatars/avatar3.png",
+    "/avatars/avatar4.png",
+    "/avatars/avatar5.png",
+    "/avatars/avatar6.png",
+    "/avatars/avatar7.png",
+    "/avatars/avatar8.png",
+    "/avatars/avatar9.png",
+    "/avatars/avatar10.png",
+    "/avatars/avatar11.png",
+  ];
+
+  const randomAvatar = avatars[Math.floor(Math.random() * 10)];
+  console.log(randomAvatar);
   // Handle Form Input Changes
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -87,6 +104,7 @@ const LearnLoopAuth = () => {
         await setDoc(doc(db, "users", user.uid), {
           username: username,
           email: user.email,
+          profile: randomAvatar,
           role: role, // Example of other data
         });
         console.log("User registered:", user);
@@ -272,10 +290,10 @@ const LearnLoopAuth = () => {
             <span className="ml-[10px]">Sign in with Google</span>
           </button>
           <button
-            onClick={handleAppleSignIn}
+            onClick={handleTwitterSignIn}
             className="w-full flex items-center justify-center border border-solid border-black text-black py-2 px-4 rounded-lg shadow-lg hover:bg-gray-200 transition duration-200">
             <FaApple size={20} />
-            <span className="ml-[10px]">Sign in with Apple</span>
+            <span className="ml-[10px]">Sign in with Twitter</span>
           </button>
         </div>
 

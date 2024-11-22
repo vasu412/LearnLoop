@@ -3,7 +3,7 @@ import { FaArrowUp, FaArrowDown, FaCommentDots, FaShare } from "react-icons/fa";
 import { useParams } from "react-router-dom";
 import context from "../Context/context";
 import Comment from "../Components/Comment";
-import { getAuth } from "firebase/auth";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { collection, doc, getDoc, getFirestore } from "firebase/firestore";
 
 const PostPreview = () => {
@@ -14,8 +14,10 @@ const PostPreview = () => {
   const [post, setPost] = useState([]);
   const [votes, setVotes] = useState(null);
   const [voteCount, setVoteCount] = useState(0);
+  const [userProfile, setUserProfile] = useState("");
 
   const { currentUser } = getAuth();
+  const auth = getAuth();
   const db = getFirestore();
 
   const handleAddComment = () => {
@@ -74,6 +76,20 @@ const PostPreview = () => {
     setVoteCount(post?.votes);
   }, []);
 
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        const userProfileRef = doc(db, "users", user.uid);
+        getDoc(userProfileRef).then((userProfileSnapshot) => {
+          if (userProfileSnapshot.exists()) {
+            setUserProfile(userProfileSnapshot.data().profile);
+          }
+        });
+      }
+    });
+    return unsubscribe;
+  }, []);
+
   return (
     <div
       className={` overflow-scroll h-[90.6vh] ${
@@ -88,7 +104,7 @@ const PostPreview = () => {
           {/* Header */}
           <div className="flex items-center space-x-4 mb-4">
             <img
-              src={""}
+              src={userProfile}
               alt="User avatar"
               className="w-10 h-10 rounded-full"
             />

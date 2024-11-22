@@ -1,12 +1,31 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import context from "../Context/context";
 import TeachingPopup from "../Components/TeachingPopup";
 import PostsPage from "../Components/PostPage";
+import { doc, getDoc, getFirestore } from "firebase/firestore";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 // Main Component for Teaching Questions and Tips Page
 const TeachingQuestions = () => {
   const [showPopup, setShowPopup] = useState(false);
   const { darkMode } = useContext(context);
+  const [userProfile, setUserProfile] = useState("");
+  const db = getFirestore();
+  const auth = getAuth();
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        const userProfileRef = doc(db, "users", user.uid);
+        getDoc(userProfileRef).then((userProfileSnapshot) => {
+          if (userProfileSnapshot.exists()) {
+            setUserProfile(userProfileSnapshot.data().profile);
+          }
+        });
+      }
+    });
+    return unsubscribe;
+  }, []);
 
   return (
     <div className="flex flex-col h-[90.6vh] overflow-scroll">
@@ -35,11 +54,13 @@ const TeachingQuestions = () => {
           style={{ width: "1100px" }}>
           <div className="flex items-center">
             {/* User Profile Image */}
-            <img
-              src="https://randomuser.me/api/portraits/women/50.jpg" // Use a sample image or the user's image
-              alt="User"
-              className="w-12 h-12 mr-3 rounded-md object-cover"
-            />
+            {(auth?.currentUser?.photoURL || userProfile) && (
+              <img
+                src={auth?.currentUser?.photoURL || userProfile} // Use a sample image or the user's image
+                alt="User"
+                className="w-12 h-12 mr-3 rounded-md object-cover"
+              />
+            )}
             {/* Placeholder to click */}
             <div
               onClick={() => setShowPopup(true)}

@@ -1,7 +1,7 @@
 import React, { useState, useContext, useEffect } from "react";
 import { FaCommentDots, FaArrowUp, FaArrowDown } from "react-icons/fa";
 import context from "../Context/context";
-import { getAuth } from "firebase/auth";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import { doc, getDoc, getFirestore, setDoc } from "firebase/firestore";
 
@@ -10,9 +10,11 @@ const Post = ({ post, isWishlist, isQuestion }) => {
   const { currentUser } = getAuth();
   const [votes, setVotes] = useState(null);
   const [voteCount, setVoteCount] = useState(0);
+  const [userProfile, setUserProfile] = useState("");
 
   const navigate = useNavigate();
   const db = getFirestore();
+  const auth = getAuth();
 
   const createdAt = new Date(post?.createdAt);
   const now = new Date();
@@ -36,6 +38,20 @@ const Post = ({ post, isWishlist, isQuestion }) => {
       ? setVoteCount((prev) => prev - 1)
       : voteCount;
   }, [votes]);
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        const userProfileRef = doc(db, "users", user.uid);
+        getDoc(userProfileRef).then((userProfileSnapshot) => {
+          if (userProfileSnapshot.exists()) {
+            setUserProfile(userProfileSnapshot.data().profile);
+          }
+        });
+      }
+    });
+    return unsubscribe;
+  }, []);
 
   useEffect(() => {
     if (!post?.id) return; // Avoid running if post or id is undefined
@@ -83,10 +99,10 @@ const Post = ({ post, isWishlist, isQuestion }) => {
             darkMode ? "text-gray-100" : "text-gray-800"
           }`}>
           {/* User Avatar */}
-          {currentUser && currentUser.photoURL ? (
+          {(currentUser && currentUser.photoURL) || userProfile ? (
             <div
               style={{
-                backgroundImage: `url(${currentUser.photoURL})`,
+                backgroundImage: `url(${currentUser?.photoURL || userProfile})`,
               }}
               className="h-10 w-10 mr-3 bg-center bg-cover rounded-full border border-gray-500"></div>
           ) : (

@@ -1,13 +1,32 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import SharePost from "./SharePost";
 import context from "../Context/context";
 import PostsPage from "./PostPage";
-import { getAuth } from "firebase/auth";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { doc, getDoc, getFirestore } from "firebase/firestore";
 
 const PostForm = () => {
   const [showPopup, setShowPopup] = useState(false);
   const { darkMode } = useContext(context);
   const { currentUser } = getAuth();
+  const [userProfile, setUserProfile] = useState("");
+  const db = getFirestore();
+  const auth = getAuth();
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        const userProfileRef = doc(db, "users", user.uid);
+        getDoc(userProfileRef).then((userProfileSnapshot) => {
+          if (userProfileSnapshot.exists()) {
+            setUserProfile(userProfileSnapshot.data().profile);
+          }
+        });
+      }
+    });
+    return unsubscribe;
+  }, []);
+
   return (
     <div
       className={`w-[calc(100vw-275px)] h-[90.6vh] overflow-y-scroll overflow-x-hidden flex flex-col p-6  ${
@@ -21,11 +40,11 @@ const PostForm = () => {
         style={{ width: "1100px" }}>
         <div className="flex items-center ">
           {/* User Profile Image */}
-          {currentUser?.photoURL && (
+          {(currentUser?.photoURL || userProfile) && (
             <img
-              src={currentUser?.photoURL} // Use a sample image or the user's image
+              src={currentUser?.photoURL || userProfile} // Use a sample image or the user's image
               alt="User"
-              className="w-12 h-12 mr-3 rounded-md object-cover"
+              className="w-12 h-12 mr-3  rounded-md object-cover"
             />
           )}
           {/* Placeholder to click */}

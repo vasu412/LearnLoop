@@ -1,14 +1,5 @@
-import {
-  collection,
-  doc,
-  getDoc,
-  getFirestore,
-  setDoc,
-} from "firebase/firestore";
 import React, { useState } from "react";
 import { FaWindowClose } from "react-icons/fa";
-import app from "../Firebase/auth";
-import { getAuth } from "firebase/auth";
 import handleSubmit from "../commonFunctions/handleSubmit";
 
 const WishlistPopup = ({ darkMode, setShowPopup }) => {

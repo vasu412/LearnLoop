@@ -44,6 +44,7 @@ const handleSubmit = async (
           createdAt: new Date().toISOString(),
           votes: 0,
           comments: [],
+          profile: userProfileData.profile,
         })
       : await setDoc(newPostRef, {
           username: userProfileData.username || "Anonymous", // Fallback if username is missing
@@ -53,6 +54,7 @@ const handleSubmit = async (
           createdAt: new Date().toISOString(),
           votes: 0,
           comments: [],
+          profile: userProfileData.profile,
         });
 
     // Handle form submission logic

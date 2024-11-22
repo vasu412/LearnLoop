@@ -1,15 +1,18 @@
-import { getAuth } from "firebase/auth";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 import React, { useEffect, useRef, useState } from "react";
 import { FaMoon, FaRegBookmark, FaSearch, FaSun } from "react-icons/fa";
 import { IoClose } from "react-icons/io5";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { update } from "../Context/slice";
+import { doc, getDoc, getFirestore } from "firebase/firestore";
 
 const NavBar = ({ darkMode, setDarkMode }) => {
   const [inputValue, setInputValue] = useState("");
+  const [userProfile, setUserProfile] = useState("");
   const auth = getAuth();
   const dispatch = useDispatch();
+  const db = getFirestore();
   const { pathname } = useLocation();
   // useRef to remember in which page user used inputbox
   const path = useRef(null);
@@ -44,6 +47,20 @@ const NavBar = ({ darkMode, setDarkMode }) => {
     if (path.current !== pathname || num === "remove") setInputValue("");
     else setInputValue(value.current);
   }, [pathname, num]);
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        const userProfileRef = doc(db, "users", user.uid);
+        getDoc(userProfileRef).then((userProfileSnapshot) => {
+          if (userProfileSnapshot.exists()) {
+            setUserProfile(userProfileSnapshot.data().profile);
+          }
+        });
+      }
+    });
+    return unsubscribe;
+  }, []);
 
   return (
     <nav
@@ -93,10 +110,10 @@ const NavBar = ({ darkMode, setDarkMode }) => {
         </button>
 
         {/* Profile Icon */}
-        {auth?.currentUser?.photoURL && (
+        {(auth?.currentUser?.photoURL || userProfile) && (
           <img
-            src={auth?.currentUser?.photoURL}
-            className="h-[30px] w-[30px] rounded-full"
+            src={auth?.currentUser?.photoURL || userProfile}
+            className="h-[30px] w-[30px] border border-solid rounded-full"
           />
         )}
       </div>

@@ -22,7 +22,6 @@ const PostsPage = ({ isWishlist = false, isQuestion }) => {
         id: doc.id,
         ...doc.data(),
       }));
-      console.log(posts);
       setPosts(posts);
     };
     fetchPosts();

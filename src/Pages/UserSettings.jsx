@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { FaUser, FaBell, FaShieldAlt, FaMoon, FaSun } from "react-icons/fa";
+// import { useTheme } from "./ThemeContext";
 
-// Avatars (replace with your avatar images)
+// Avatar data (replace with your actual image paths)
 const avatars = [
   "/avatars/avatar1.png",
   "/avatars/avatar2.png",
@@ -17,26 +18,27 @@ const avatars = [
 ];
 
 const UserSettings = () => {
+  const { theme, toggleTheme } = { theme: "", toggleTheme: "" };
   const [selectedAvatar, setSelectedAvatar] = useState(avatars[0]);
   const [notifications, setNotifications] = useState(true);
   const [privacy, setPrivacy] = useState("Public");
-  const [theme, setTheme] = useState("light");
+  const [avatarModalOpen, setAvatarModalOpen] = useState(false);
 
   // Handlers
-  const handleAvatarChange = (avatar) => setSelectedAvatar(avatar);
+  const handleAvatarChange = (avatar) => {
+    setSelectedAvatar(avatar);
+    setAvatarModalOpen(false); // Close modal after selection
+  };
+
   const toggleNotifications = () => setNotifications(!notifications);
   const handlePrivacyChange = (e) => setPrivacy(e.target.value);
-  const handleThemeChange = (newTheme) => setTheme(newTheme);
 
   return (
-    <div
-      className={`p-6 rounded-xl shadow-lg transition-all ${
-        theme === "dark" ? "bg-gray-800 text-white" : "bg-white text-black"
-      }`}>
-      <h2 className="text-3xl font-semibold mb-6 text-center">User Settings</h2>
+    <div className="w-[calc(100vw-275px)] p-6 rounded-xl shadow-lg space-y-6">
+      <h2 className="text-3xl font-semibold">User Settings</h2>
 
       {/* Profile Customization */}
-      <div className="mb-6">
+      <div>
         <h3 className="text-2xl font-medium mb-3 flex items-center">
           <FaUser className="mr-2" /> Profile Customization
         </h3>
@@ -44,27 +46,19 @@ const UserSettings = () => {
           <img
             src={selectedAvatar}
             alt="Avatar"
-            className="w-20 h-20 rounded-full border-4 border-blue-500 cursor-pointer transition-all hover:border-blue-400"
+            className="w-20 h-20 rounded-full border-4 cursor-pointer hover:border-blue-500 transition-all"
+            onClick={() => setAvatarModalOpen(true)} // Open modal to select avatar
           />
-          <button className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-400">
+          <button
+            onClick={() => setAvatarModalOpen(true)}
+            className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-400">
             Change Avatar
           </button>
-        </div>
-        <div className="grid grid-cols-5 gap-4">
-          {avatars.map((avatar, index) => (
-            <img
-              key={index}
-              src={avatar}
-              alt={`Avatar ${index + 1}`}
-              className="w-16 h-16 rounded-full border-2 cursor-pointer transition-all hover:border-blue-600"
-              onClick={() => handleAvatarChange(avatar)}
-            />
-          ))}
         </div>
       </div>
 
       {/* Notification Preferences */}
-      <div className="mb-6">
+      <div>
         <h3 className="text-2xl font-medium mb-3 flex items-center">
           <FaBell className="mr-2" /> Notification Preferences
         </h3>
@@ -80,7 +74,7 @@ const UserSettings = () => {
       </div>
 
       {/* Privacy Settings */}
-      <div className="mb-6">
+      <div>
         <h3 className="text-2xl font-medium mb-3 flex items-center">
           <FaShieldAlt className="mr-2" /> Privacy Settings
         </h3>
@@ -101,23 +95,25 @@ const UserSettings = () => {
       </div>
 
       {/* Theme Settings */}
-      <div className="mb-6">
+      <div>
         <h3 className="text-2xl font-medium mb-3 flex items-center">
-          <span className="mr-2">
-            {theme === "dark" ? <FaSun /> : <FaMoon />}
-          </span>{" "}
+          {theme === "dark" ? (
+            <FaSun className="mr-2" />
+          ) : (
+            <FaMoon className="mr-2" />
+          )}{" "}
           Theme Settings
         </h3>
         <div className="flex space-x-6">
           <button
-            onClick={() => handleThemeChange("light")}
+            onClick={toggleTheme}
             className={`py-2 px-4 rounded-md ${
               theme === "light" ? "bg-blue-500 text-white" : "bg-gray-200"
             }`}>
             Light Mode
           </button>
           <button
-            onClick={() => handleThemeChange("dark")}
+            onClick={toggleTheme}
             className={`py-2 px-4 rounded-md ${
               theme === "dark" ? "bg-blue-500 text-white" : "bg-gray-200"
             }`}>
@@ -125,6 +121,33 @@ const UserSettings = () => {
           </button>
         </div>
       </div>
+
+      {/* Avatar Selection Modal */}
+      {avatarModalOpen && (
+        <div className="fixed inset-0 flex justify-center items-center bg-gray-600 bg-opacity-50">
+          <div className="bg-white rounded-lg p-6 space-y-4 w-3/4 max-w-lg">
+            <h3 className="text-2xl font-medium text-center">
+              Select Your Avatar
+            </h3>
+            <div className="grid grid-cols-5 gap-4">
+              {avatars.map((avatar, index) => (
+                <img
+                  key={index}
+                  src={avatar}
+                  alt={`Avatar ${index + 1}`}
+                  className="w-16 h-16 rounded-full border-2 cursor-pointer hover:border-blue-600"
+                  onClick={() => handleAvatarChange(avatar)}
+                />
+              ))}
+            </div>
+            <button
+              onClick={() => setAvatarModalOpen(false)}
+              className="mt-4 w-full bg-red-500 text-white py-2 rounded-md hover:bg-red-400">
+              Close
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
