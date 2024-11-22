@@ -130,29 +130,105 @@ Throughout the development of LearnLoop, our team encountered various challenges
 
 ## :airplane:<span style="color:#29c4f6">WEBSITE UI
 
-#### 1. DASHBOARD
+# LearnLoop Pages
 
-![Screenshot 1](/images/dashboard.png)
+## 1. Home
 
-##### UI Description:<i> "The Dashboard provides a user-centric overview, showcasing their current progress and personalized recommendations."</i>
+![Screenshot](./screenshots/s1.png)
 
-#### 2. COURSE PAGE
+### Description
 
-![Screenshot 2](./images/course-page.png)
+<i>Users can share posts, engage in discussions, and access features like dark/light mode to personalize their experience.</i>
 
-##### UI Description:<i> "Dedicated pages for each course offering detailed information and access to resources."</i>
+---
 
-#### 3. FORUMS
+## 2. Teaching Questions and Tips
 
-![Screenshot 3](./images/forums.png)
+![Screenshot](./screenshots/s2.png)
 
-##### UI Description:<i> "Interactive forums for collaboration and knowledge sharing."</i>
+### Description
 
-#### 4. RESPONSIVENESS
+<i>A repository of teaching questions and tips curated for educators, offering practical advice and support.</i>
 
-![Screenshot 4](./images/responsive.png)
+---
 
-##### UI Description:<i> "Optimized for various screen sizes, ensuring usability across devices."</i>
+## 3. Lesson Plans and Activities
+
+![Screenshot](./screenshots/s3.png)
+
+### Description
+
+<i>Structured lesson plans and interactive activities to enhance classroom engagement and learning outcomes.</i>
+
+---
+
+## 4. News and Announcements
+
+![Screenshot](./screenshots/s4.png)
+
+### Description
+
+<i>A centralized space to share updates, announcements, and important news relevant to the learning community.</i>
+
+---
+
+## 5. Getting Started
+
+![Screenshot](./screenshots/s5.png)
+
+### Description
+
+<i>A beginner-friendly guide to help new users navigate the platform and access available resources effectively.</i>
+
+---
+
+## 6. Coursebooks
+
+![Screenshot](./screenshots/s6.png)
+
+### Description
+
+<i>Comprehensive course materials available for download and reference, covering diverse subjects and grades.</i>
+
+---
+
+## 7. Websites
+
+![Screenshot](./screenshots/s7.png)
+
+### Description
+
+<i>A curated list of recommended websites for additional learning resources and tools.</i>
+
+---
+
+## 8. Events
+
+![Screenshot](./screenshots/s8.png)
+
+### Description
+
+<i>A calendar view of upcoming events, workshops, and activities within the community.</i>
+
+---
+
+## 9. Feature Wishlist
+
+![Screenshot](./screenshots/s9.png)
+
+### Description
+
+<i>Allows users to suggest new features and improvements for the platform.</i>
+
+---
+
+## 10. Dashboard
+
+![Screenshot](./screenshots/s10.png)
+
+### Description
+
+<i>Provides a personalized overview, showcasing user progress, goals, and tailored recommendations.</i>
 
 ## LEARNINGS
 
