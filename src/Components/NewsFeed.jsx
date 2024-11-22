@@ -59,7 +59,7 @@ const NewsFeed = () => {
   // Trigger fetch on filter or page change
   useEffect(() => {
     // setNews(newsData);
-    // fetchNews();
+    fetchNews();
   }, [debouncedFilter, page]);
 
   const handleScroll = () => {
